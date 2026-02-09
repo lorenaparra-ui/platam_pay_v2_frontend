@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platam - Design System Light Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // COLORES OFICIALES PLATAM
+                        primary: {
+                            50: '#F0FEF0',
+                            100: '#DCFCE1',
+                            200: '#BBF7C3',
+                            300: '#86EFAC',
+                            400: '#4AE54A',
+                            500: '#22C55E',
+                            600: '#16A34A',
+                            700: '#15803D',
+                            800: '#166534',
+                            900: '#14532D',
+                        },
+                        secondary: {
+                            50: '#ECFDF5',
+                            100: '#D1FAE5',
+                            200: '#A7F3D0',
+                            300: '#6EE7B7',
+                            400: '#2ADBA4',
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065F46',
+                            900: '#064E3B',
+                        },
+                        tertiary: {
+                            50: '#ECFEFF',
+                            100: '#CFFAFE',
+                            200: '#A5F3FC',
+                            300: '#67E8F9',
+                            400: '#0FD6F5',
+                            500: '#06B6D4',
+                            600: '#0891B2',
+                            700: '#0E7490',
+                            800: '#155E75',
+                            900: '#164E63',
+                        },
+                        // Grises Light Mode
+                        light: {
+                            50: '#0A0E27',
+                            100: '#0F172A',
+                            200: '#1E293B',
+                            300: '#334155',
+                            400: '#475569',
+                            500: '#64748B',
+                            600: '#94A3B8',
+                            700: '#CBD5E1',
+                            800: '#E2E8F0',
+                            900: '#F1F5F9',
+                            950: '#F8FAFC',
+                        },
+                        success: { 400: '#4AE54A', 500: '#22C55E', 600: '#16A34A' },
+                        warning: { 400: '#FBBF24', 500: '#F59E0B', 600: '#D97706' },
+                        error: { 400: '#F87171', 500: '#EF4444', 600: '#DC2626' },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'primary': '0 10px 40px -10px rgba(74, 229, 74, 0.3)',
+                        'secondary': '0 10px 40px -10px rgba(42, 219, 164, 0.3)',
+                        'tertiary': '0 10px 40px -10px rgba(15, 214, 245, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-primary {
+            background: linear-gradient(135deg, #4AE54A 0%, #22C55E 100%);
+        }
+        .gradient-secondary {
+            background: linear-gradient(135deg, #2ADBA4 0%, #10B981 100%);
+        }
+        .gradient-tertiary {
+            background: linear-gradient(135deg, #0FD6F5 0%, #06B6D4 100%);
+        }
+        .gradient-hero {
+            background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #F1F5F9 100%);
+        }
+        .gradient-multi {
+            background: linear-gradient(135deg, #4AE54A 0%, #2ADBA4 50%, #0FD6F5 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-light-950 text-light-50 antialiased">
+
+    <!-- Toggle Theme Button (Fixed) -->
+    <button onclick="window.location.href='platam-sistema-oficial.html'" 
+            class="fixed top-20 right-4 z-50 bg-light-50 text-white p-3 rounded-full shadow-lg hover:bg-light-100 transition-all">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect border-b border-light-800">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center gradient-multi">
+                        <div class="w-6 h-6 border-2 border-white rounded"></div>
+                    </div>
+                    <span class="text-2xl font-bold">Platam</span>
+                </div>
+                
+                <!-- Menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#" class="text-light-100 hover:text-primary-500 transition-colors">Productos</a>
+                    <a href="#" class="text-light-100 hover:text-secondary-500 transition-colors">Soluciones</a>
+                    <a href="#" class="text-light-100 hover:text-tertiary-500 transition-colors">Recursos</a>
+                    <a href="#palette" class="text-light-100 hover:text-primary-500 transition-colors">Paleta</a>
+                </div>
+                
+                <!-- CTA -->
+                <div class="flex items-center gap-4">
+                    <button class="hidden md:block text-primary-500 hover:text-primary-600 font-medium transition-colors">
+                        Iniciar sesión
+                    </button>
+                    <button class="bg-primary-500 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-600 hover:shadow-primary active:scale-95 transition-all duration-200 min-h-[44px]">
+                        Comenzar gratis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4 md:px-8 gradient-hero relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-20 right-10 w-96 h-96 bg-primary-400 rounded-full opacity-5 blur-3xl"></div>
+        <div class="absolute bottom-20 left-10 w-80 h-80 bg-secondary-400 rounded-full opacity-5 blur-3xl"></div>
+        <div class="absolute top-40 left-1/3 w-72 h-72 bg-tertiary-400 rounded-full opacity-5 blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 bg-primary-400/10 border border-primary-400/30 rounded-full px-4 py-2">
+                        <span class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-medium text-primary-600">Nuevo: Dashboard Analytics v2.0</span>
+                    </div>
+                    
+                    <!-- Heading -->
+                    <h1 class="text-5xl md:text-6xl font-bold leading-tight text-light-50">
+                        Transforma tu negocio con
+                        <span class="text-transparent bg-clip-text gradient-multi">
+                            tecnología verde
+                        </span>
+                    </h1>
+                    
+                    <!-- Description -->
+                    <p class="text-xl text-light-100 leading-relaxed">
+                        Potencia tu empresa con herramientas sostenibles de análisis, automatización y gestión en una sola plataforma.
+                    </p>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-primary-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-600 hover:shadow-primary active:scale-95 transition-all duration-200 min-h-[44px]">
+                            Empezar ahora
+                        </button>
+                        <button class="border-2 border-secondary-500 text-secondary-600 px-8 py-4 rounded-lg font-semibold hover:bg-secondary-400/10 active:bg-secondary-400/20 transition-all duration-200 min-h-[44px]">
+                            Ver demo
+                        </button>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="flex gap-8 pt-8">
+                        <div>
+                            <div class="text-3xl font-bold text-primary-600">50K+</div>
+                            <div class="text-sm text-light-200">Usuarios activos</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-secondary-600">98%</div>
+                            <div class="text-sm text-light-200">Satisfacción</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-tertiary-600">24/7</div>
+                            <div class="text-sm text-light-200">Soporte</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Preview -->
+                <div class="relative">
+                    <div class="bg-white rounded-2xl p-6 shadow-2xl border border-light-800">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-semibold text-light-50">Dashboard Principal</h3>
+                                <div class="flex gap-2">
+                                    <div class="w-3 h-3 bg-error-400 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-warning-400 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Cards Grid -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-light-900 border border-light-800 rounded-xl p-4 hover:border-primary-400/50 transition-all">
+                                    <div class="text-sm text-light-200 mb-2">Ingresos</div>
+                                    <div class="text-2xl font-bold text-primary-600">$124.5K</div>
+                                    <div class="text-xs text-primary-600 mt-1">↑ 12.5%</div>
+                                </div>
+                                
+                                <div class="bg-light-900 border border-light-800 rounded-xl p-4 hover:border-secondary-400/50 transition-all">
+                                    <div class="text-sm text-light-200 mb-2">Usuarios</div>
+                                    <div class="text-2xl font-bold text-secondary-600">8,342</div>
+                                    <div class="text-xs text-secondary-600 mt-1">↑ 8.2%</div>
+                                </div>
+                                
+                                <div class="bg-light-900 border border-light-800 rounded-xl p-4 hover:border-tertiary-400/50 transition-all">
+                                    <div class="text-sm text-light-200 mb-2">Conversión</div>
+                                    <div class="text-2xl font-bold text-tertiary-600">3.48%</div>
+                                    <div class="text-xs text-tertiary-600 mt-1">↑ 2.1%</div>
+                                </div>
+                                
+                                <div class="bg-light-900 border border-light-800 rounded-xl p-4 hover:border-warning-400/50 transition-all">
+                                    <div class="text-sm text-light-200 mb-2">Tareas</div>
+                                    <div class="text-2xl font-bold text-warning-500">23</div>
+                                    <div class="text-xs text-light-200 mt-1">Pendientes</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chart Area -->
+                            <div class="bg-light-900 border border-light-800 rounded-xl p-4 h-32">
+                                <div class="flex items-end justify-between h-full gap-2">
+                                    <div class="w-full bg-primary-400/40 rounded-t" style="height: 40%"></div>
+                                    <div class="w-full bg-secondary-400/50 rounded-t" style="height: 60%"></div>
+                                    <div class="w-full bg-tertiary-400/70 rounded-t" style="height: 80%"></div>
+                                    <div class="w-full bg-primary-500 rounded-t" style="height: 100%"></div>
+                                    <div class="w-full bg-secondary-500/80 rounded-t" style="height: 75%"></div>
+                                    <div class="w-full bg-tertiary-500/60 rounded-t" style="height: 55%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Official Color Palette Section -->
+    <section id="palette" class="py-20 px-4 md:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-light-50">Paleta de Colores - Light Mode</h2>
+                <p class="text-xl text-light-100">Aplicación de colores oficiales en modo claro</p>
+            </div>
+            
+            <!-- Theme Toggle Info -->
+            <div class="mb-12 p-6 bg-light-900 rounded-xl border border-light-800">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2 text-light-50">☀️ Modo Claro Activo</h3>
+                        <p class="text-sm text-light-200">Fondo principal: <code class="bg-light-800 px-2 py-1 rounded text-light-50">#F8FAFC</code> • Texto: <code class="bg-light-800 px-2 py-1 rounded text-light-50">#0A0E27</code></p>
+                    </div>
+                    <button onclick="window.location.href='platam-sistema-oficial.html'" 
+                            class="bg-light-50 text-white px-6 py-3 rounded-lg font-semibold hover:bg-light-100 transition-all flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        Cambiar a Oscuro
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Color Swatches -->
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <div class="relative">
+                        <div class="w-full h-48 bg-primary-500 rounded-xl shadow-primary"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">Verde Lima</div>
+                                <div class="text-sm font-mono text-white/90 mt-1">#4AE54A</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light-900 rounded-lg p-4 border border-light-800">
+                        <div class="text-xs space-y-1 text-light-100">
+                            <div><span class="text-light-200">Uso Light:</span></div>
+                            <div>• Botones con texto blanco</div>
+                            <div>• Estados de éxito</div>
+                            <div>• Acciones principales</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="relative">
+                        <div class="w-full h-48 bg-secondary-500 rounded-xl shadow-secondary"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">Turquesa</div>
+                                <div class="text-sm font-mono text-white/90 mt-1">#2ADBA4</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light-900 rounded-lg p-4 border border-light-800">
+                        <div class="text-xs space-y-1 text-light-100">
+                            <div><span class="text-light-200">Uso Light:</span></div>
+                            <div>• Acciones secundarias</div>
+                            <div>• Categorías</div>
+                            <div>• Indicadores</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="relative">
+                        <div class="w-full h-48 bg-tertiary-500 rounded-xl shadow-tertiary"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">Cyan</div>
+                                <div class="text-sm font-mono text-white/90 mt-1">#0FD6F5</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light-900 rounded-lg p-4 border border-light-800">
+                        <div class="text-xs space-y-1 text-light-100">
+                            <div><span class="text-light-200">Uso Light:</span></div>
+                            <div>• Información</div>
+                            <div>• Enlaces</div>
+                            <div>• Notificaciones</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="relative">
+                        <div class="w-full h-48 bg-light-50 rounded-xl border border-light-700"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-white">Azul Oscuro</div>
+                                <div class="text-sm font-mono text-white/90 mt-1">#0A0E27</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-light-900 rounded-lg p-4 border border-light-800">
+                        <div class="text-xs space-y-1 text-light-100">
+                            <div><span class="text-light-200">Uso Light:</span></div>
+                            <div>• Texto principal</div>
+                            <div>• Iconos</div>
+                            <div>• Bordes oscuros</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Showcase -->
+    <section class="py-20 px-4 md:px-8 bg-light-950">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-light-50">Componentes en Light Mode</h2>
+                <p class="text-xl text-light-100">Elementos UI con la paleta oficial</p>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold mb-6 text-light-50">Botones</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="space-y-4">
+                        <p class="text-sm text-light-200 font-medium">Primario (Verde)</p>
+                        <button class="w-full bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-600 hover:shadow-primary active:scale-95 transition-all">
+                            Botón Primario
+                        </button>
+                        <button class="w-full border-2 border-primary-500 text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-400/10 transition-all">
+                            Botón Outline
+                        </button>
+                        <button class="w-full bg-primary-400/10 text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-400/20 transition-all">
+                            Botón Ghost
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-sm text-light-200 font-medium">Secundario (Turquesa)</p>
+                        <button class="w-full bg-secondary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-secondary-600 hover:shadow-secondary active:scale-95 transition-all">
+                            Botón Secundario
+                        </button>
+                        <button class="w-full border-2 border-secondary-500 text-secondary-600 px-6 py-3 rounded-lg font-semibold hover:bg-secondary-400/10 transition-all">
+                            Botón Outline
+                        </button>
+                        <button class="w-full bg-secondary-400/10 text-secondary-600 px-6 py-3 rounded-lg font-semibold hover:bg-secondary-400/20 transition-all">
+                            Botón Ghost
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-sm text-light-200 font-medium">Terciario (Cyan)</p>
+                        <button class="w-full bg-tertiary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-tertiary-600 hover:shadow-tertiary active:scale-95 transition-all">
+                            Botón Terciario
+                        </button>
+                        <button class="w-full border-2 border-tertiary-500 text-tertiary-600 px-6 py-3 rounded-lg font-semibold hover:bg-tertiary-400/10 transition-all">
+                            Botón Outline
+                        </button>
+                        <button class="w-full bg-tertiary-400/10 text-tertiary-600 px-6 py-3 rounded-lg font-semibold hover:bg-tertiary-400/20 transition-all">
+                            Botón Ghost
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cards -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold mb-6 text-light-50">Tarjetas</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white border border-light-800 rounded-xl p-6 hover:border-primary-400 hover:shadow-primary transition-all">
+                        <div class="w-12 h-12 bg-primary-400/10 rounded-lg flex items-center justify-center mb-4">
+                            <div class="w-6 h-6 bg-primary-500 rounded"></div>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-light-50">Sostenibilidad</h4>
+                        <p class="text-light-100 mb-4">Gestiona recursos de manera eficiente con tecnología verde.</p>
+                        <a href="#" class="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center gap-2">
+                            Conocer más →
+                        </a>
+                    </div>
+                    
+                    <div class="bg-white border border-light-800 rounded-xl p-6 hover:border-secondary-400 hover:shadow-secondary transition-all">
+                        <div class="w-12 h-12 bg-secondary-400/10 rounded-lg flex items-center justify-center mb-4">
+                            <div class="w-6 h-6 bg-secondary-500 rounded-full"></div>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-light-50">Innovación</h4>
+                        <p class="text-light-100 mb-4">Herramientas de vanguardia para tu transformación digital.</p>
+                        <a href="#" class="text-secondary-600 hover:text-secondary-700 font-medium inline-flex items-center gap-2">
+                            Conocer más →
+                        </a>
+                    </div>
+                    
+                    <div class="bg-white border border-light-800 rounded-xl p-6 hover:border-tertiary-400 hover:shadow-tertiary transition-all">
+                        <div class="w-12 h-12 bg-tertiary-400/10 rounded-lg flex items-center justify-center mb-4">
+                            <div class="w-6 h-6 bg-tertiary-500 rounded-lg"></div>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2 text-light-50">Agilidad</h4>
+                        <p class="text-light-100 mb-4">Acelera procesos con automatización inteligente.</p>
+                        <a href="#" class="text-tertiary-600 hover:text-tertiary-700 font-medium inline-flex items-center gap-2">
+                            Conocer más →
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alerts -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold mb-6 text-light-50">Alertas y Notificaciones</h3>
+                <div class="space-y-4">
+                    <div class="bg-primary-50 border border-primary-200 rounded-lg p-4 flex items-start gap-3">
+                        <div class="w-5 h-5 bg-primary-500 rounded-full flex-shrink-0 mt-0.5"></div>
+                        <div>
+                            <h5 class="font-semibold text-primary-700 mb-1">Éxito</h5>
+                            <p class="text-sm text-light-100">Tu operación se completó exitosamente. Todos los datos están sincronizados.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-secondary-50 border border-secondary-200 rounded-lg p-4 flex items-start gap-3">
+                        <div class="w-5 h-5 bg-secondary-500 rounded-full flex-shrink-0 mt-0.5"></div>
+                        <div>
+                            <h5 class="font-semibold text-secondary-700 mb-1">Información</h5>
+                            <p class="text-sm text-light-100">Nueva actualización disponible. Descarga la versión 2.0 ahora.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-tertiary-50 border border-tertiary-200 rounded-lg p-4 flex items-start gap-3">
+                        <div class="w-5 h-5 bg-tertiary-500 rounded-full flex-shrink-0 mt-0.5"></div>
+                        <div>
+                            <h5 class="font-semibold text-tertiary-700 mb-1">Nota</h5>
+                            <p class="text-sm text-light-100">Recuerda revisar tu configuración para optimizar el rendimiento.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-warning-50 border border-warning-200 rounded-lg p-4 flex items-start gap-3">
+                        <div class="w-5 h-5 bg-warning-500 rounded-full flex-shrink-0 mt-0.5"></div>
+                        <div>
+                            <h5 class="font-semibold text-warning-700 mb-1">Advertencia</h5>
+                            <p class="text-sm text-light-100">Tu suscripción expira en 7 días. Renueva para mantener el acceso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Badges -->
+            <div>
+                <h3 class="text-2xl font-semibold mb-6 text-light-50">Badges</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-primary-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold">Activo</span>
+                    <span class="bg-primary-100 text-primary-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-primary-300">Nuevo</span>
+                    
+                    <span class="bg-secondary-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold">Premium</span>
+                    <span class="bg-secondary-100 text-secondary-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-secondary-300">Pro</span>
+                    
+                    <span class="bg-tertiary-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold">Destacado</span>
+                    <span class="bg-tertiary-100 text-tertiary-700 px-4 py-1.5 rounded-full text-sm font-semibold border border-tertiary-300">Info</span>
+                    
+                    <span class="bg-warning-500 text-white px-4 py-1.5 rounded-full text-sm font-semibold">Pendiente</span>
+                    <span class="bg-light-800 text-light-100 px-4 py-1.5 rounded-full text-sm font-semibold">Inactivo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full App Preview -->
+    <section class="py-20 px-4 md:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 text-light-50">Dashboard Completo - Light Mode</h2>
+                <p class="text-xl text-light-100">Interfaz completa con colores optimizados para modo claro</p>
+            </div>
+            
+            <div class="bg-light-950 rounded-2xl overflow-hidden shadow-2xl border border-light-800">
+                <!-- App Header -->
+                <div class="bg-white border-b border-light-800 p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-lg gradient-multi"></div>
+                        <h3 class="font-semibold text-light-50">Platam Dashboard</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="w-8 h-8 bg-light-900 hover:bg-light-800 rounded-lg transition-colors"></button>
+                        <button class="w-8 h-8 bg-light-900 hover:bg-light-800 rounded-lg transition-colors"></button>
+                        <div class="w-8 h-8 gradient-primary rounded-full"></div>
+                    </div>
+                </div>
+                
+                <!-- App Content -->
+                <div class="grid md:grid-cols-4 min-h-[600px]">
+                    <!-- Sidebar -->
+                    <div class="bg-light-950 border-r border-light-800 p-4 space-y-2">
+                        <div class="flex items-center gap-3 px-3 py-2 bg-primary-100 text-primary-700 rounded-lg font-medium">
+                            <div class="w-5 h-5 bg-primary-500 rounded"></div>
+                            <span>Dashboard</span>
+                        </div>
+                        <div class="flex items-center gap-3 px-3 py-2 text-light-200 hover:text-light-50 hover:bg-light-900 rounded-lg transition-all cursor-pointer">
+                            <div class="w-5 h-5 border-2 border-current rounded"></div>
+                            <span>Proyectos</span>
+                        </div>
+                        <div class="flex items-center gap-3 px-3 py-2 text-light-200 hover:text-light-50 hover:bg-light-900 rounded-lg transition-all cursor-pointer">
+                            <div class="w-5 h-5 border-2 border-current rounded-full"></div>
+                            <span>Tareas</span>
+                        </div>
+                        <div class="flex items-center gap-3 px-3 py-2 text-light-200 hover:text-light-50 hover:bg-light-900 rounded-lg transition-all cursor-pointer">
+                            <div class="w-5 h-5 bg-current rounded"></div>
+                            <span>Analytics</span>
+                        </div>
+                        
+                        <div class="pt-4 mt-4 border-t border-light-800">
+                            <div class="flex items-center gap-3 px-3 py-2 text-light-200 hover:text-light-50 hover:bg-light-900 rounded-lg transition-all cursor-pointer">
+                                <div class="w-5 h-5 border-2 border-current rounded"></div>
+                                <span>Ajustes</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Main Content -->
+                    <div class="md:col-span-3 p-6 space-y-6 bg-light-950">
+                        <!-- Stats -->
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="bg-white border border-light-800 rounded-xl p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <div class="w-4 h-4 bg-primary-500 rounded"></div>
+                                    </div>
+                                    <div class="text-sm text-light-200">Ingresos</div>
+                                </div>
+                                <div class="text-2xl font-bold text-primary-600">$124,580</div>
+                                <div class="text-xs text-primary-600 mt-1">↑ 12.5% este mes</div>
+                            </div>
+                            
+                            <div class="bg-white border border-light-800 rounded-xl p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-secondary-100 rounded-lg flex items-center justify-center">
+                                        <div class="w-4 h-4 bg-secondary-500 rounded-full"></div>
+                                    </div>
+                                    <div class="text-sm text-light-200">Usuarios</div>
+                                </div>
+                                <div class="text-2xl font-bold text-secondary-600">8,342</div>
+                                <div class="text-xs text-secondary-600 mt-1">↑ 8.2% este mes</div>
+                            </div>
+                            
+                            <div class="bg-white border border-light-800 rounded-xl p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="w-8 h-8 bg-tertiary-100 rounded-lg flex items-center justify-center">
+                                        <div class="w-4 h-4 bg-tertiary-500 rounded-lg"></div>
+                                    </div>
+                                    <div class="text-sm text-light-200">Conversión</div>
+                                </div>
+                                <div class="text-2xl font-bold text-tertiary-600">3.48%</div>
+                                <div class="text-xs text-tertiary-600 mt-1">↑ 2.1% este mes</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart -->
+                        <div class="bg-white border border-light-800 rounded-xl p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h4 class="font-semibold text-lg text-light-50">Rendimiento Mensual</h4>
+                                <div class="flex gap-4 text-sm">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                        <span class="text-light-200">Ventas</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-3 h-3 bg-secondary-500 rounded-full"></div>
+                                        <span class="text-light-200">Usuarios</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="h-48 flex items-end justify-between gap-3">
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full bg-secondary-400/40 rounded-t" style="height: 45%"></div>
+                                    <div class="w-full bg-primary-400/40 rounded-t" style="height: 35%"></div>
+                                    <span class="text-xs text-light-300 mt-1">E</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full bg-secondary-400/50 rounded-t" style="height: 52%"></div>
+                                    <div class="w-full bg-primary-400/50 rounded-t" style="height: 45%"></div>
+                                    <span class="text-xs text-light-300 mt-1">F</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full bg-secondary-500/70 rounded-t" style="height: 72%"></div>
+                                    <div class="w-full bg-primary-500/70 rounded-t" style="height: 65%"></div>
+                                    <span class="text-xs text-light-300 mt-1">M</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full bg-secondary-500 rounded-t" style="height: 90%"></div>
+                                    <div class="w-full bg-primary-500 rounded-t" style="height: 100%"></div>
+                                    <span class="text-xs text-light-300 mt-1">A</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full bg-secondary-500/85 rounded-t" style="height: 78%"></div>
+                                    <div class="w-full bg-primary-500/85 rounded-t" style="height: 88%"></div>
+                                    <span class="text-xs text-light-300 mt-1">M</span>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center gap-1">
+                                    <div class="w-full bg-secondary-400/65 rounded-t" style="height: 58%"></div>
+                                    <div class="w-full bg-primary-400/65 rounded-t" style="height: 70%"></div>
+                                    <span class="text-xs text-light-300 mt-1">J</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity -->
+                        <div class="bg-white border border-light-800 rounded-xl p-6">
+                            <h4 class="font-semibold text-lg mb-4 text-light-50">Actividad Reciente</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3 p-3 hover:bg-light-900 rounded-lg transition-colors cursor-pointer">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <div class="w-5 h-5 bg-primary-500 rounded"></div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-light-50">Proyecto completado</div>
+                                        <div class="text-sm text-light-100">El equipo finalizó el rediseño</div>
+                                        <div class="text-xs text-light-200 mt-1">Hace 2 horas</div>
+                                    </div>
+                                    <span class="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-xs font-medium">Nuevo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 md:px-8 bg-white border-t border-light-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg gradient-multi"></div>
+                    <span class="text-xl font-bold text-light-50">Platam</span>
+                </div>
+                <div class="text-sm text-light-200">
+                    © 2026 Platam. Light Mode - Sistema optimizado para claridad.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
