@@ -9,7 +9,7 @@ export const Checkbox = React.forwardRef<
     <div className="relative flex items-center">
       <input
         type="checkbox"
-        className="peer h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-sm border border-slate-300 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary-400 checked:border-primary-400 dark:border-slate-700 dark:bg-slate-950 dark:checked:bg-primary-400"
+        className="peer h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-sm border border-slate-300 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary-400 checked:border-primary-400 dark:border-slate-600 dark:bg-slate-950 dark:checked:bg-primary-400 dark:checked:border-primary-400"
         ref={ref}
         {...props}
       />

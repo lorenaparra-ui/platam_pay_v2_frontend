@@ -23,7 +23,8 @@
       "@styles/*": ["./styles/*"],
       "@providers/*": ["./providers/*"],
       "@components/*": ["./components/*"], 
-      "@lib/*": ["./lib/*"]
+      "@lib/*": ["./lib/*"], 
+      "@onboarding/*": ["./features/onboarding/*"]
     }
   },
   "include": [
