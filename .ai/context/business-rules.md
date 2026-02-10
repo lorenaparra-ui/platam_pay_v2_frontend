@@ -2,7 +2,7 @@
 
 <!-- Reglas de negocio detalladas: BNPL, factoring, confirming, flujos de aprobación, cobranza, etc. -->
 
-## Dominios
+## FEATURES 
 - **BNPL (Buy Now Pay Later):** _reglas_
 - **Factoring:** _reglas_
 - **Confirming:** _reglas_

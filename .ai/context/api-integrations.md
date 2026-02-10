@@ -1,17 +1,13 @@
 # Integraciones API
 
-<!-- Documentación de APIs externas: Payvalida, Twilio, etc. -->
+<!-- Documentación de APIs externas: AWS Cognito -->
 
-## Payvalida
-- **Propósito:** _descripción_
-- **Endpoints:** _base URL, recursos_
-- **Autenticación:** _tipo y cómo configurarla_
-- **Errores y reintentos:** _política_
+# Integración de Next.js con AWS Cognito
 
-## Twilio
-- **Propósito:** WhatsApp / SMS
-- **Configuración:** _variables de entorno, webhooks_
-- **Límites y buenas prácticas**
+Este documento describe cómo integrar **Next.js** con **AWS Cognito** para autenticación y autorización de usuarios, utilizando **Amazon Cognito User Pools** y el flujo moderno de autenticación con JWT.
 
-## Otras integraciones
-_Listar y documentar cada una._
+---
+
+
+
+
