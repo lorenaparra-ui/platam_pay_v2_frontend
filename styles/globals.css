@@ -1,11 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+   --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Fira Code', Monaco, 'Courier New', monospace;
   /* Base Colors - Light Mode */
   --background: #F8FAFC; /* light-950 */
   --foreground: #0A0E27; /* light-50 */
+
+  /* Background palette */
+  --background-50: #ffffff;
+  --background-100: #f8fafc;
+  --background-200: #f1f5f9;
+  --background-300: #e2e8f0;
+  --background-400: #cbd5e1;
+  --background-500: #94a3b8;
+  --background-600: #64748b;
+  --background-700: #475569;
+  --background-800: #334155;
+  --background-900: #1e293b;
+  --background-950: #0f172a;
 
   /* Primary (Verde Lima) */
   --color-primary-50: #F0FEF0;
@@ -51,12 +70,76 @@
 
   --tertiary: var(--color-tertiary-400);
   --tertiary-foreground: #0A0E27;
+
+  /* Light Palette (Reversed: 50=Darkest, 950=Lightest) */
+  --color-light-50: #0A0E27;
+  --color-light-100: #0F172A;
+  --color-light-200: #1E293B;
+  --color-light-300: #334155;
+  --color-light-400: #475569;
+  --color-light-500: #64748B;
+  --color-light-600: #94A3B8;
+  --color-light-700: #CBD5E1;
+  --color-light-800: #E2E8F0;
+  --color-light-900: #F1F5F9;
+  --color-light-950: #F8FAFC;
+
+  /* Dark Palette (Standard: 50=Lightest, 950=Darkest) */
+  --color-dark-50: #F8FAFC;
+  --color-dark-100: #F1F5F9;
+  --color-dark-200: #E2E8F0;
+  --color-dark-300: #CBD5E1;
+  --color-dark-400: #94A3B8;
+  --color-dark-500: #64748B;
+  --color-dark-600: #475569;
+  --color-dark-700: #334155;
+  --color-dark-800: #1E293B;
+  --color-dark-900: #0F172A;
+  --color-dark-950: #0A0E27;
+
+  /* Semantic Colors */
+  /* Success */
+  --color-success-50: #F0FEF0;
+  --color-success-400: #4AE54A;
+  --color-success-500: #22C55E;
+  --color-success-600: #16A34A;
+
+  /* Warning */
+  --color-warning-50: #FFFBEB;
+  --color-warning-400: #FBBF24;
+  --color-warning-500: #F59E0B;
+  --color-warning-600: #D97706;
+
+  /* Error */
+  --color-error-50: #FEF2F2;
+  --color-error-400: #F87171;
+  --color-error-500: #EF4444;
+  --color-error-600: #DC2626;
+
+  /* Info */
+  --color-info-50: #ECFEFF;
+  --color-info-400: #0FD6F5;
+  --color-info-500: #06B6D4;
+  --color-info-600: #0891B2;
 }
 
 .dark {
   /* Base Colors - Dark Mode */
   --background: #0A0E27; /* dark-950 */
   --foreground: #ffffff;
+
+  /* Background palette (inverted for dark) */
+  --background-50: #0f172a;
+  --background-100: #1e293b;
+  --background-200: #334155;
+  --background-300: #475569;
+  --background-400: #64748b;
+  --background-500: #94a3b8;
+  --background-600: #cbd5e1;
+  --background-700: #e2e8f0;
+  --background-800: #f1f5f9;
+  --background-900: #f8fafc;
+  --background-950: #ffffff;
 }
 
 @theme inline {
@@ -72,12 +155,98 @@
   --color-tertiary: var(--tertiary);
   --color-tertiary-foreground: var(--tertiary-foreground);
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Light Palette (Reversed: 50=Darkest, 950=Lightest) */
+  --color-light-50: var(--color-light-50);
+  --color-light-100: var(--color-light-100);
+  --color-light-200: var(--color-light-200);
+  --color-light-300: var(--color-light-300);
+  --color-light-400: var(--color-light-400);
+  --color-light-500: var(--color-light-500);
+  --color-light-600: var(--color-light-600);
+  --color-light-700: var(--color-light-700);
+  --color-light-800: var(--color-light-800);
+  --color-light-900: var(--color-light-900);
+  --color-light-950: var(--color-light-950);
+
+  /* Dark Palette (Standard: 50=Lightest, 950=Darkest) */
+  --color-dark-50: var(--color-dark-50);
+  --color-dark-100: var(--color-dark-100);
+  --color-dark-200: var(--color-dark-200);
+  --color-dark-300: var(--color-dark-300);
+  --color-dark-400: var(--color-dark-400);
+  --color-dark-500: var(--color-dark-500);
+  --color-dark-600: var(--color-dark-600);
+  --color-dark-700: var(--color-dark-700);
+  --color-dark-800: var(--color-dark-800);
+  --color-dark-900: var(--color-dark-900);
+  --color-dark-950: var(--color-dark-950);
+
+  /* Semantic Palettes */
+  --color-success-50: var(--color-success-50);
+  --color-success-400: var(--color-success-400);
+  --color-success-500: var(--color-success-500);
+  --color-success-600: var(--color-success-600);
+
+  --color-warning-50: var(--color-warning-50);
+  --color-warning-400: var(--color-warning-400);
+  --color-warning-500: var(--color-warning-500);
+  --color-warning-600: var(--color-warning-600);
+
+  --color-error-50: var(--color-error-50);
+  --color-error-400: var(--color-error-400);
+  --color-error-500: var(--color-error-500);
+  --color-error-600: var(--color-error-600);
+
+  --color-info-50: var(--color-info-50);
+  --color-info-400: var(--color-info-400);
+  --color-info-500: var(--color-info-500);
+  --color-info-600: var(--color-info-600);
+
+  /* Background palette */
+  --color-background-50: var(--background-50);
+  --color-background-100: var(--background-100);
+  --color-background-200: var(--background-200);
+  --color-background-300: var(--background-300);
+  --color-background-400: var(--background-400);
+  --color-background-500: var(--background-500);
+  --color-background-600: var(--background-600);
+  --color-background-700: var(--background-700);
+  --color-background-800: var(--background-800);
+  --color-background-900: var(--background-900);
+  --color-background-950: var(--background-950);
+
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Fira Code', Monaco, 'Courier New', monospace;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+@layer base {
+   body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl font-bold leading-tight tracking-tight;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl font-bold leading-tight tracking-tight;
+  }
+
+  h3 {
+    @apply text-3xl md:text-4xl font-semibold leading-snug;
+  }
+
+  h4 {
+    @apply text-2xl md:text-3xl font-semibold leading-snug;
+  }
+
+  h5 {
+    @apply text-xl md:text-2xl font-medium leading-normal;
+  }
+
+  h6 {
+    @apply text-lg md:text-xl font-medium leading-normal;
+  }
 }

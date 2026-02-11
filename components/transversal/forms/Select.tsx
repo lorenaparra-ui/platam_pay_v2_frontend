@@ -68,7 +68,7 @@ export const Select = <T extends FieldValues>({
             </div>
 
             {fieldState.error && (
-              <p className="text-sm text-red-600 mt-1">
+              <p className="text-sm text-red-400 dark:text-red-400 mt-1">
                 {fieldState.error.message}
               </p>
             )}

@@ -50,8 +50,8 @@ export const Textarea = <T extends FieldValues>({
               {...props}
             />
 
-            {fieldState.error && (
-              <p className="text-sm text-red-600 mt-1">
+           {fieldState.error && (
+              <p className="text-sm text-red-600  dark:text-red-400 mt-1">
                 {fieldState.error.message}
               </p>
             )}

@@ -9,7 +9,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: "border-slate-200 focus-visible:ring-primary-400/50 focus-visible:border-primary-400 dark:border-slate-800 dark:focus-visible:border-primary-400",
-        error: "border-red-500 focus-visible:ring-red-500/30 text-red-600 placeholder:text-red-300 dark:border-red-500 dark:text-red-400 dark:placeholder:text-red-400",
+        error: "border-red-500 focus-visible:ring-red-500/30 text-red-600 placeholder:text-red-300 dark:border-red-300 dark:text-red-400 dark:placeholder:text-red-400",
         success: "border-green-500 focus-visible:ring-green-500/30 text-green-600 dark:border-green-500 dark:text-green-400",
       },
       inputSize: {
@@ -47,7 +47,7 @@ const Input = <T extends FieldValues>({
 }: InputProps<T>) => {
   return (
     <div className="mb-4">
-      <label
+       <label
         htmlFor={name}
         className="block text-sm font-medium text-gray-700 mb-1 dark:text-gray-200"
       >
@@ -77,7 +77,7 @@ const Input = <T extends FieldValues>({
             />
 
             {fieldState.error && (
-              <p className="text-sm text-red-600 mt-1">
+               <p className="text-sm text-red-400 mt-1">
                 {fieldState.error.message}
               </p>
             )}

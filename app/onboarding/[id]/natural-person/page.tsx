@@ -1,5 +1,5 @@
 "use client"
-import { CreditaApplicationForm } from "@/features/onboarding/components/credit -application/CreditaApplicationForm";
+import { CreditaApplicationForm } from "@/features/onboarding/components/credit -application/CreditApplicationForm";
 import { defaultValuesNaturalPerson, naturalPersonFormFields } from "@/features/onboarding/constants/natural-person";
 import { naturalPersonSchema } from "@/features/onboarding/schemas/natural-person-schema";
 import { salesRepresentativeService } from "@/features/partners/services/sales-representative";
@@ -35,21 +35,24 @@ export default function NaturalPersonPage({ params }: { params: Promise<{ id: st
            cities,
        };
    
-       const formFields = naturalPersonFormFields.map((section) => ({
-           ...section,
-           fields: section.fields.map((field) => {
-               if (field.optionsName) {
-                   const optionsValue = options[field.optionsName];
-                   if (optionsValue) {
-                       return {
-                           ...field,
-                           options: optionsValue,
-                       };
-                   }
-               }
-               return field;
-           }),
-       }));
+         const formFields = naturalPersonFormFields.map((step) => ({
+        ...step,
+        sections: step.sections.map((section) => ({
+            ...section,
+            fields: section.fields.map((field) => {
+                if (field.optionsName) {
+                    const optionsValue = options[field.optionsName];
+                    if (optionsValue) {
+                        return {
+                            ...field,
+                            options: optionsValue,
+                        };
+                    }
+                }
+                return field;
+            }),
+        })),
+    }));
 
     return (
         <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">

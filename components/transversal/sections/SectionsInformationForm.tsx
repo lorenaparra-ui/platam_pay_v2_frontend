@@ -11,14 +11,15 @@ import { FormField } from "@/interfaces/form";
 
 export interface SectionInformationFormProps<T extends FieldValues> extends SectionInformationField {
   control: Control<T>;
+  columns?: number;
 }
 
 const renderField = <T extends FieldValues>(
-  field:  FormFieldConfig,
+  field: FormFieldConfig,
   control: Control<T>
 ) => {
- const {typefield, type, ...res} = field;
-  const commonProps:FormField<any> = {
+  const { typefield, type, ...res } = field;
+  const commonProps: FormField<any> = {
     control,
     ...res,
   };
@@ -39,14 +40,15 @@ const renderField = <T extends FieldValues>(
 
 export const SectionInformationForm = memo(<T extends FieldValues>({
   control,
+  columns = 2,
   fields,
   section,
 }: SectionInformationFormProps<T>) => (
   <section className="space-y-4">
-    <h2 className="text-xl font-semibold text-primary-600 dark:text-primary-400 border-b border-slate-100 dark:border-slate-800 pb-2">
+    <h2 className="text-xl font-semibold text-primary-600 dark:text-primary-400 border-b border-light-800 dark:border-dark-800 pb-2">
       {section}
     </h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className={`grid grid-cols-${columns} gap-6`}>
       {fields.map((field) => (
         <div key={field.name}>{renderField(field, control)}</div>
       ))}

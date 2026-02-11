@@ -1,5 +1,5 @@
 "use client"
-import { CreditaApplicationForm } from "@/features/onboarding/components/credit -application/CreditaApplicationForm";
+import { CreditaApplicationForm } from "@/features/onboarding/components/credit -application/CreditApplicationForm";
 import { defaultValuesLegalEntity, legalEntityFormFields } from "@onboarding/constants/legal-entity";
 import { legalEntitySchema } from "@/features/onboarding/schemas/legal-entity-schema";
 import { salesRepresentativeService } from "@/features/partners/services/sales-representative";

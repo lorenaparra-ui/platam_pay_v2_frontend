@@ -10,5 +10,6 @@ export type FormFieldConfig = Omit<FormField<any>, "control"> & {
 
 export interface SectionInformationField {
     section: string;
+    columns?: number;
     fields: FormFieldConfig[];
 }

@@ -49,11 +49,11 @@ export const DatePicker = <T extends FieldValues>({
                 value={field.value ?? ""}
                 {...props}
               />
-              <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400 pointer-events-none" />
+               <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400 pointer-events-none" />
             </div>
 
             {fieldState.error && (
-              <p className="text-sm text-red-600 mt-1">
+              <p className="text-sm text-red-400 dark:text-red-400 mt-1">
                 {fieldState.error.message}
               </p>
             )}
