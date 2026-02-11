@@ -2,14 +2,15 @@ import * as React from "react"
 import { cn } from "@/lib/utils/cn"
 import { inputVariants } from "./Input"
 import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form"
+import { VariantProps } from "class-variance-authority"
 
 export interface TextareaProps<T extends FieldValues>
-  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "defaultValue"> {
+  extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "defaultValue">,
+  VariantProps<typeof inputVariants> {
   name: Path<T>
   control: Control<T>
   label: string
   rules?: RegisterOptions<T>
-  variant?: "default" | "error" | "success"
 }
 
 export const Textarea = <T extends FieldValues>({
@@ -18,7 +19,7 @@ export const Textarea = <T extends FieldValues>({
   label,
   rules,
   className,
-  variant = "default",
+  variant,
   ...props
 }: TextareaProps<T>) => {
   return (

@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils/cn"
 import { inputVariants } from "./Input"
 import { ChevronDown } from "lucide-react"
 import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form"
+import { VariantProps } from "class-variance-authority"
 
 export type SelectOption = {
   label: string
@@ -10,12 +11,12 @@ export type SelectOption = {
 }
 
 export interface SelectProps<T extends FieldValues>
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "name" | "defaultValue"> {
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "name" | "defaultValue">,
+  VariantProps<typeof inputVariants> {
   name: Path<T>
   control: Control<T>
   label: string
   rules?: RegisterOptions<T>
-  variant?: "default" | "error" | "success"
   options: SelectOption[]
 }
 
@@ -26,7 +27,7 @@ export const Select = <T extends FieldValues>({
   rules,
   className,
   options,
-  variant = "default",
+  variant,
   ...props
 }: SelectProps<T>) => {
   return (
