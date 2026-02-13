@@ -42,6 +42,7 @@ export const naturalPersonFormFields: FormStep[] = [
             {
                 section: "Representante de Ventas",
                 columns: 1,
+                name: "salesRepresentative",
                 fields: [
                     {
                         name: "clr_hunter_id",

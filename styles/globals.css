@@ -4,14 +4,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-   --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Fira Code', Monaco, 'Courier New', monospace;
   /* Base Colors - Light Mode */
-  --background: #F8FAFC; /* light-950 */
-  --foreground: #0A0E27; /* light-50 */
+  --background: #F8FAFC;
+  /* light-950 */
+  --foreground: #0A0E27;
+  /* light-50 */
 
   /* Background palette */
   --background-50: #ffffff;
@@ -125,7 +127,8 @@
 
 .dark {
   /* Base Colors - Dark Mode */
-  --background: #0A0E27; /* dark-950 */
+  --background: #0A0E27;
+  /* dark-950 */
   --foreground: #ffffff;
 
   /* Background palette (inverted for dark) */
@@ -145,15 +148,45 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  
+  --color-secondary-50: var(--color-secondary-50);
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-200: var(--color-secondary-200);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-400: var(--color-secondary-400);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-600: var(--color-secondary-600);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-800: var(--color-secondary-800);
+  --color-secondary-900: var(--color-secondary-900);
+
   --color-tertiary: var(--tertiary);
   --color-tertiary-foreground: var(--tertiary-foreground);
+  --color-tertiary-50: var(--color-tertiary-50);
+  --color-tertiary-100: var(--color-tertiary-100);
+  --color-tertiary-200: var(--color-tertiary-200);
+  --color-tertiary-300: var(--color-tertiary-300);
+  --color-tertiary-400: var(--color-tertiary-400);
+  --color-tertiary-500: var(--color-tertiary-500);
+  --color-tertiary-600: var(--color-tertiary-600);
+  --color-tertiary-700: var(--color-tertiary-700);
+  --color-tertiary-800: var(--color-tertiary-800);
+  --color-tertiary-900: var(--color-tertiary-900);
 
   /* Light Palette (Reversed: 50=Darkest, 950=Lightest) */
   --color-light-50: var(--color-light-50);
@@ -220,7 +253,7 @@
 }
 
 @layer base {
-   body {
+  body {
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
@@ -248,5 +281,32 @@
 
   h6 {
     @apply text-lg md:text-xl font-medium leading-normal;
+  }
+
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #4AE54A 0%, #22C55E 100%);
+  }
+
+  .gradient-secondary {
+    background: linear-gradient(135deg, #2ADBA4 0%, #10B981 100%);
+  }
+
+  .gradient-tertiary {
+    background: linear-gradient(135deg, #0FD6F5 0%, #06B6D4 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #F1F5F9 100%);
+  }
+
+  .gradient-multi {
+    background: linear-gradient(135deg, #4AE54A 0%, #2ADBA4 50%, #0FD6F5 100%);
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 }

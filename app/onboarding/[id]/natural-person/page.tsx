@@ -4,6 +4,7 @@ import { defaultValuesNaturalPerson, naturalPersonFormFields } from "@/features/
 import { naturalPersonSchema } from "@/features/onboarding/schemas/natural-person-schema";
 import { salesRepresentativeService } from "@/features/partners/services/sales-representative";
 import { useConfigData } from "@/providers/ConfigDataProvider";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const handleSubmit = async (data: any) => {
@@ -17,42 +18,49 @@ const handleSubmit = async (data: any) => {
 
 export default function NaturalPersonPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = React.use(params);
-       const { documentTypes, businessTypes, businessSeniority, cities } = useConfigData();
-       const [salesRepresentatives, setSalesRepresentatives] = useState<any[]>([]);
-       
-       useEffect(() => {
-           if (id) {
-               const reps = salesRepresentativeService.getAllByPartner(Number(id));
-               setSalesRepresentatives(reps);
-           }
-       }, [id]);
-   
-       const options: Record<string, any[]> = {
-           salesRepresentatives,
-           documentTypes,
-           businessTypes,
-           businessSeniority,
-           cities,
-       };
-   
-         const formFields = naturalPersonFormFields.map((step) => ({
-        ...step,
-        sections: step.sections.map((section) => ({
-            ...section,
-            fields: section.fields.map((field) => {
-                if (field.optionsName) {
-                    const optionsValue = options[field.optionsName];
-                    if (optionsValue) {
-                        return {
-                            ...field,
-                            options: optionsValue,
-                        };
-                    }
-                }
-                return field;
-            }),
-        })),
-    }));
+    const searchParams = useSearchParams();
+    const salesRepresentative = searchParams.get("salesRepresentative");
+
+    const { documentTypes, businessTypes, businessSeniority, cities } = useConfigData();
+    const [salesRepresentatives, setSalesRepresentatives] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (id) {
+            const reps = salesRepresentativeService.getAllByPartner(Number(id));
+            setSalesRepresentatives(reps);
+        }
+    }, [id]);
+
+    const options: Record<string, any[]> = {
+        salesRepresentatives,
+        documentTypes,
+        businessTypes,
+        businessSeniority,
+        cities,
+    };
+
+    const formFields = naturalPersonFormFields
+        .map((step) => ({
+            ...step,
+            sections: step.sections
+                .filter(section => salesRepresentative || section.name !== "salesRepresentative")
+                .map((section) => ({
+                    ...section,
+                    fields: section.fields.map((field) => {
+                        if (field.optionsName) {
+                            const optionsValue = options[field.optionsName];
+                            if (optionsValue) {
+                                return {
+                                    ...field,
+                                    options: optionsValue,
+                                };
+                            }
+                        }
+                        return field;
+                    }),
+                })),
+        }))
+        .filter(step => step.sections.length > 0);
 
     return (
         <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">

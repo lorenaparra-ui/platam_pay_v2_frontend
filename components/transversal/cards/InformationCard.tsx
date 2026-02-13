@@ -46,7 +46,7 @@ const InformationCard = React.forwardRef<HTMLDivElement, InformationCardProps>(
       iconColor = "text-primary-foreground",
       iconBackgroundColor = "bg-primary",
       iconBorderColor,
-      borderColor = "border-gray-200 dark:border-gray-800",
+      borderColor = " dark:border-primary border-light-800",
       buttonProps,
       titleClassName,
       descriptionClassName,
