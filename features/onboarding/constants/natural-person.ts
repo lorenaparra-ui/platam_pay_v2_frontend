@@ -20,19 +20,19 @@ export const defaultValuesNaturalPerson = {
     "business_address": "",
     "business_type": "",
     "business_seniority": "",
-    "business_number_of_employees": "",
-    "business_number_of_locations": "",
-    "business_flagship_m2": "",
+    "business_number_of_employees": 0,
+    "business_number_of_locations": 0,
+    "business_flagship_m2":0,
     "business_has_rent": "",
-    "business_rent_amount": "",
+    "business_rent_amount": 0,
     "show_assets": "",
-    "total_assets": "",
-    "monthly_income": "",
-    "monthly_expenses": "",
+    "total_assets": 0,
+    "monthly_income": 0,
+    "monthly_expenses": 0,
     "is_partner_client": "",
-    "mothly_partner_purchases": "",
+    "mothly_partner_purchases": 0,
     "current_purchases": "",
-    "clr_requested_loc": ""
+    "clr_requested_loc": 0,
 }
 
 
@@ -192,22 +192,25 @@ export const naturalPersonFormFields: FormStep[] = [
                         name: "business_number_of_employees",
                         label: "Número de empleados",
                         type: "number",
-                        typefield: FieldType.Input,
+                        typefield: FieldType.InputNumber,
+                        useGrouping: false, 
                         rules: { required: "Número de empleados requerido" }
                     },
                     {
                         name: "business_number_of_locations",
                         label: "Cantidad de locales",
                         type: "number",
-                        typefield: FieldType.Input,
+                        typefield: FieldType.InputNumber,
+                        useGrouping: false, 
                         rules: { required: "Cantidad de locales requerida" }
                     },
                     {
                         name: "business_flagship_m2",
                         label: "¿Cuál es el tamaño de tu local principal?",
                         type: "number",
-                        typefield: FieldType.Input,
-                        placeholder: "En m²",
+                        typefield: FieldType.InputNumber,
+                        useGrouping: false, 
+                        suffix: "m²",
                         rules: { required: "Tamaño requerido" }
                     },
                     {
@@ -225,10 +228,9 @@ export const naturalPersonFormFields: FormStep[] = [
                         label: "Valor mensual total de arriendos",
                         typefield: FieldType.InputNumber,
                         integerOnly: true,
-                        useGrouping: true,
-                        numberFormatLocale:'es-CO',
-                        prefix:'$',
-                        max:100000,
+                        useGrouping: false,
+                        numberFormatLocale: 'es-CO',
+                        prefix: '$',
                         dependency: "business_has_rent",
                         dependencyValue: "Si",
                         rules: { required: "Monto requerido" }
@@ -247,32 +249,44 @@ export const naturalPersonFormFields: FormStep[] = [
                         name: "total_assets",
                         label: "Total de activos",
                         type: "number",
-                        typefield: FieldType.Input,
-                        placeholder: "$0",
+                        typefield: FieldType.InputNumber,
+                        integerOnly: true,
+                        useGrouping: true,
+                        numberFormatLocale: 'es-CO',
+                        prefix: '$',
                         rules: { required: "Total de activos requerido" }
                     },
                     {
                         name: "monthly_income",
                         label: "Ventas mensuales",
                         type: "number",
-                        typefield: FieldType.Input,
-                        placeholder: "$0",
+                        typefield: FieldType.InputNumber,
+                        integerOnly: true,
+                        useGrouping: true,
+                        numberFormatLocale: 'es-CO',
+                        prefix: '$',
                         rules: { required: "Ventas mensuales requeridas" }
                     },
                     {
                         name: "monthly_expenses",
                         label: "Gastos mensuales en inventario",
                         type: "number",
-                        typefield: FieldType.Input,
-                        placeholder: "$0",
+                        typefield: FieldType.InputNumber,
+                        integerOnly: true,
+                        useGrouping: true,
+                        numberFormatLocale: 'es-CO',
+                        prefix: '$',
                         rules: { required: "Gastos mensuales requeridos" }
                     },
                     {
                         name: "clr_requested_loc",
                         label: "¿Qué cupo de línea de crédito necesitas para tu negocio?",
                         type: "number",
-                        typefield: FieldType.Input,
-                        placeholder: "$0",
+                        typefield: FieldType.InputNumber,
+                        integerOnly: true,
+                        useGrouping: true,
+                        numberFormatLocale: 'es-CO',
+                        prefix: '$',
                         rules: { required: "Monto requerido" }
                     },
                     {
@@ -293,7 +307,7 @@ export const naturalPersonFormFields: FormStep[] = [
                         numberFormatOptions: { style: "currency", currency: "COP", maximumFractionDigits: 0 },
                         dependency: "is_partner_client",
                         dependencyValue: "Si",
-                        typefield: FieldType.Input,
+                        typefield: FieldType.InputNumber,
                         rules: { required: "Monto requerido" }
                     }
                 ]

@@ -21,27 +21,27 @@ export const naturalPersonSchema = z.object({
   business_address: z.string().min(1, "Dirección requerida"),
   business_type: z.string().min(1, "Tipo de negocio requerido"),
   business_seniority: z.string().min(1, "Antigüedad requerida"),
-  business_number_of_employees: z.string().min(1, "Número de empleados requerido"),
-  business_number_of_locations: z.string().min(1, "Número de sedes requerido"),
-  business_flagship_m2: z.string().min(1, "Tamaño del local requerido"),
+  business_number_of_employees: z.number().min(1, "Número de empleados requerido"),
+  business_number_of_locations: z.number().min(1, "Número de sedes requerido"),
+  business_flagship_m2: z.number().min(1, "Tamaño del local requerido"),
   
   // Arriendo
   business_has_rent: z.string().min(1, "Requerido"), // "Sí" o "No"
-  business_rent_amount: z.string().optional().or(z.literal("")), // Opcional si no paga arriendo
+  business_rent_amount: z.number().optional(),
 
   // Financiera
-  show_assets: z.string().min(1, "Requerido"),
-  total_assets: z.string().min(1, "Total activos requerido"),
-  monthly_income: z.string().min(1, "Ingresos mensuales requeridos"),
-  monthly_expenses: z.string().min(1, "Gastos mensuales requeridos"),
+  show_assets: z.number().min(1, "Requerido"),
+  total_assets: z.number().min(1, "Total activos requerido"),
+  monthly_income: z.number().min(1, "Ingresos mensuales requeridos"),
+  monthly_expenses: z.number().min(1, "Gastos mensuales requeridos"),
   
   // Cliente Aliado
   is_partner_client: z.string().min(1, "Requerido"),
-  mothly_partner_purchases: z.string().optional().or(z.literal("")), // Nota: Mantuve el nombre "mothly" como en tu JSON
+  mothly_partner_purchases: z.number().optional(),
   current_purchases: z.string().optional().or(z.literal("")),
   
   // Solicitud
-  clr_requested_loc: z.string().min(1, "Monto solicitado requerido"),
+  clr_requested_loc: z.number().min(1, "Monto solicitado requerido"),
 });
 
 export type NaturalPersonSchema = z.infer<typeof naturalPersonSchema>;

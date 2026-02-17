@@ -184,7 +184,7 @@ const InputNumber = <T extends FieldValues>({
 
   const getPaddingStyle = useCallback((): React.CSSProperties => {
     const pl =
-      prefix && prefixRef.current ? prefixRef.current.offsetWidth + 12 : undefined
+      prefix && prefixRef.current ? prefixRef.current.offsetWidth + 18 : undefined
     const pr =
       suffix && suffixRef.current ? suffixRef.current.offsetWidth + 12 : undefined
     return {
@@ -338,7 +338,7 @@ const InputNumber = <T extends FieldValues>({
                   <span
                     ref={prefixRef}
                     className={cn(
-                      "pointer-events-none absolute left-0 flex items-center pl-3 select-none",
+                      "pointer-events-none absolute left-0 flex items-center ml-4  select-none",
                       "text-sm text-slate-500 dark:text-slate-400",
                       fieldState.error && "text-red-400 dark:text-red-400"
                     )}
@@ -372,7 +372,7 @@ const InputNumber = <T extends FieldValues>({
                       className,
                     }),
                     suffix && "pr-10",
-                    prefix && "pl-8"
+                    prefix && "pl-10"
                   )}
                   {...htmlProps}
                 />
