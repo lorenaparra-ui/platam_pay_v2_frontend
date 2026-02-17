@@ -4,12 +4,12 @@ import { Textarea } from "@/components/transversal/forms/Textarea";
 import { Checkbox } from "@/components/transversal/forms/Checkbox";
 import { DatePicker } from "@/components/transversal/forms/DatePicker";
 import { FieldType, FormFieldConfig, SectionInformationField } from "@/interfaces/section";
-import { Control, FieldValues } from "react-hook-form";
-import { memo } from "react";
+import { Control, FieldValues, useWatch } from "react-hook-form";
+import { memo, useEffect } from "react";
 import { FormField } from "@/interfaces/form";
 import { SearchSelect } from "../forms/SearchSelect";
 import { InputWithSelect } from "../forms/InputWithSelect";
-
+import { InputNumber } from "../forms/InputNumber";
 
 export interface SectionInformationFormProps<T extends FieldValues> extends SectionInformationField {
   control: Control<T>;
@@ -20,7 +20,7 @@ const renderField = <T extends FieldValues>(
   field: FormFieldConfig,
   control: Control<T>
 ) => {
-  const { typefield, type, ...res } = field;
+  const { typefield, type, optionsName,  ...res } = field;
   const commonProps: FormField<any> = {
     control,
     ...res,
@@ -36,7 +36,7 @@ const renderField = <T extends FieldValues>(
     case FieldType.Date:
       return <DatePicker {...commonProps} />;
     case FieldType.SearchSelect:
-      return field.options ? <SearchSelect {...(commonProps as any)} items={field.options} /> : null;
+      return field.options ? <SearchSelect {...(commonProps as any)}  items={field.options} /> : null;
     case FieldType.InputWithSelect:
       return field.options ? <InputWithSelect 
         type={type} 
@@ -44,6 +44,9 @@ const renderField = <T extends FieldValues>(
         options={field.options} 
         defaultSelectValue={field.defaultSelectValue}
       /> : null;
+    case FieldType.InputNumber:
+      return <InputNumber {...commonProps} placeholder={field.placeholder}  />;
+
     default:
       return <Input {...commonProps} placeholder={field.placeholder} type={type} />;
   }
@@ -54,7 +57,14 @@ export const SectionInformationForm = memo(<T extends FieldValues>({
   columns = 2,
   fields,
   section,
-}: SectionInformationFormProps<T>) => (
+}: SectionInformationFormProps<T>) => {
+  const formValues = useWatch({ control });
+
+  useEffect(() => {
+    console.log(`[${section}] Form Values Updated:`, formValues);
+  }, [formValues, section]);
+
+  return (
   <section className="space-y-4">
     <h2 className="text-xl font-semibold text-light-50 dark:text-light-800 border-b border-light-800 dark:border-dark-800 pb-2">
       {section}
@@ -65,4 +75,4 @@ export const SectionInformationForm = memo(<T extends FieldValues>({
       ))}
     </div>
   </section>
-)) 
+)}) 

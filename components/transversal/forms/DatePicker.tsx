@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils/cn"
 import { inputVariants } from "./Input"
 import { Calendar } from "lucide-react"
-import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form"
+import { Control, Controller, FieldValues, useWatch } from "react-hook-form"
+import { FormField } from "@/interfaces/form"
 
 // Helper para formatear fecha a YYYY-MM-DD local
 const formatDate = (date: Date): string => {
@@ -11,15 +12,7 @@ const formatDate = (date: Date): string => {
   return `${year}-${month}-${day}`
 }
 
-export interface DatePickerProps<T extends FieldValues>
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "name" | "defaultValue"> {
-  name: Path<T>
-  control: Control<T>
-  label: string
-  rules?: RegisterOptions<T>
-  minDate?: Date | string
-  maxDate?: Date | string
-}
+export type DatePickerProps<T extends FieldValues> = Omit<FormField<T>, "control"> & { control: Control<T>; dependency?: string; dependencyValue?: any }
 
 export const DatePicker = <T extends FieldValues>({
   name,
@@ -29,8 +22,14 @@ export const DatePicker = <T extends FieldValues>({
   className,
   minDate,
   maxDate,
+  dependency,
+  dependencyValue,
   ...props
 }: DatePickerProps<T>) => {
+  const depCurrent = dependency ? useWatch({ control, name: dependency as any }) : undefined
+  if (dependency && depCurrent !== dependencyValue) {
+    return null
+  }
   const min = minDate instanceof Date ? formatDate(minDate) : minDate
   const max = maxDate instanceof Date ? formatDate(maxDate) : maxDate
 

@@ -2,23 +2,15 @@ import * as React from "react"
 import { cn } from "@/lib/utils/cn"
 import { inputVariants } from "./Input"
 import { ChevronDown } from "lucide-react"
-import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form"
-import { VariantProps } from "class-variance-authority"
+import { Control, Controller, FieldValues, useWatch } from "react-hook-form"
+import { Option, FormField } from "@/interfaces/form"
 
-export type SelectOption = {
-  label: string
-  value: string
-}
-
-export interface SelectProps<T extends FieldValues>
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "name" | "defaultValue">,
-  VariantProps<typeof inputVariants> {
-  name: Path<T>
-  control: Control<T>
-  label: string
-  rules?: RegisterOptions<T>
-  options: SelectOption[]
-}
+export type SelectProps<T extends FieldValues> =
+  Omit<FormField<T>, "type" | "options"> &
+  Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "name" | "defaultValue" | "value" | "onChange"> & {
+    control: Control<T>
+    options: Option[]
+  }
 
 export const Select = <T extends FieldValues>({
   name,
@@ -32,6 +24,11 @@ export const Select = <T extends FieldValues>({
   optionsName,
   ...props
 }: SelectProps<T>) => {
+  const { dependency, dependencyValue } = props;
+  const depCurrent = dependency ? useWatch({ control, name: dependency as any }) : undefined;
+  if (dependency && depCurrent !== dependencyValue) {
+    return null;
+  }
   return (
     <div className="mb-4">
       <label

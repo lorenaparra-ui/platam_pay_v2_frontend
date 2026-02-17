@@ -10,6 +10,7 @@ export enum FieldType {
     Checkbox = 'checkbox',
     Date = 'date',
     InputWithSelect = 'input-with-select',
+    InputNumber = 'input-number',
 }
 
 

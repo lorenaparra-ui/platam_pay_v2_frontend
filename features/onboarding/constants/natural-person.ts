@@ -125,7 +125,7 @@ export const naturalPersonFormFields: FormStep[] = [
                         imageKey: "flag",
                         defaultSelectValue: "57",
                         rules: { required: "Código de país requerido" }
-                    }, 
+                    },
                 ]
             },
         ]
@@ -179,7 +179,7 @@ export const naturalPersonFormFields: FormStep[] = [
                         typefield: FieldType.SearchSelect,
                         optionsName: "businessTypes",
                         placeholder: "Buscar",
-                        rules: { required: "Tipo de negocio requerido" }
+                        //rules: { required: "Tipo de negocio requerido" }
                     },
                     {
                         name: "business_seniority",
@@ -220,6 +220,19 @@ export const naturalPersonFormFields: FormStep[] = [
                         ],
                         rules: { required: "Requerido" }
                     },
+                    {
+                        name: "business_rent_amount",
+                        label: "Valor mensual total de arriendos",
+                        typefield: FieldType.InputNumber,
+                        integerOnly: true,
+                        useGrouping: true,
+                        numberFormatLocale:'es-CO',
+                        prefix:'$',
+                        max:100000,
+                        dependency: "business_has_rent",
+                        dependencyValue: "Si",
+                        rules: { required: "Monto requerido" }
+                    },
                 ]
             }
         ]
@@ -255,6 +268,14 @@ export const naturalPersonFormFields: FormStep[] = [
                         rules: { required: "Gastos mensuales requeridos" }
                     },
                     {
+                        name: "clr_requested_loc",
+                        label: "¿Qué cupo de línea de crédito necesitas para tu negocio?",
+                        type: "number",
+                        typefield: FieldType.Input,
+                        placeholder: "$0",
+                        rules: { required: "Monto requerido" }
+                    },
+                    {
                         name: "is_partner_client",
                         label: "¿Eres cliente actual de Platam?",
                         typefield: FieldType.Select,
@@ -265,14 +286,16 @@ export const naturalPersonFormFields: FormStep[] = [
                         rules: { required: "Requerido" }
                     },
                     {
-                        name: "clr_requested_loc",
-                        label: "¿Qué cupo de línea de crédito necesitas para tu negocio?",
+                        name: "mothly_partner_purchases",
+                        label: "¿Cuánto sueles comprar mensualmente?",
                         type: "number",
+                        numberFormatLocale: "es-CO",
+                        numberFormatOptions: { style: "currency", currency: "COP", maximumFractionDigits: 0 },
+                        dependency: "is_partner_client",
+                        dependencyValue: "Si",
                         typefield: FieldType.Input,
-                        placeholder: "$0",
                         rules: { required: "Monto requerido" }
                     }
-
                 ]
             }
         ]
