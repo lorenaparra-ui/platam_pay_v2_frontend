@@ -228,7 +228,7 @@ export const naturalPersonFormFields: FormStep[] = [
                         label: "Valor mensual total de arriendos",
                         typefield: FieldType.InputNumber,
                         integerOnly: true,
-                        useGrouping: false,
+                        useGrouping: true,
                         numberFormatLocale: 'es-CO',
                         prefix: '$',
                         dependency: "business_has_rent",
