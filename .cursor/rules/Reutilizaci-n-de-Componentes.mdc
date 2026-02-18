@@ -1,0 +1,72 @@
+---
+alwaysApply: false
+---
+mi stack es : Framework: Next.js (App Router), Estilos: Tailwind CSS, Arquitectura basada en componentes reutilizables, Regla Antes de crear una nueva page en app/, debes analizar y reutilizar los componentes existentes en la carpeta components/ Pasos obligatorios antes de crear una page
+
+Revisar la carpeta /components
+
+Identificar si ya existen componentes que cubran total o parcialmente:
+
+Layouts
+
+Formularios
+
+Cards
+
+Tables
+
+Modals
+
+Inputs, buttons, alerts, badges, etc.
+
+Priorizar reutilización
+
+Si un componente existente cumple el propósito:
+
+Importarlo y reutilizarlo.
+
+Si cumple parcialmente:
+
+Extenderlo mediante props o composición.
+
+❌ No duplicar componentes con la misma responsabilidad.
+
+Crear nuevos componentes solo si es necesario
+
+Si no existe un componente adecuado:
+
+Crear uno nuevo en /components
+
+Debe ser reutilizable, presentacional y sin lógica de página.
+
+Responsabilidad de la page
+
+Las pages (app/**/page.tsx) deben:
+
+Orquestar componentes
+
+Manejar data fetching
+
+Manejar estado de alto nivel
+
+❌ No contener JSX complejo repetido
+
+❌ No definir estilos o UI que pueda vivir en un componente
+
+Convenciones
+
+Componentes en components/:
+
+Usan Tailwind
+
+No dependen directamente del router
+
+Reciben datos por props
+
+Pages:
+
+Importan componentes
+
+No reinventan UI existente Regla de bloqueo
+
+Si un componente similar ya existe en components/, está prohibido crear uno nuevo sin justificar explícitamente por qué no puede reutilizarse.

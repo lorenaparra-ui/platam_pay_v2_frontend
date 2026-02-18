@@ -1,0 +1,58 @@
+---
+description: Component implementation patterns for transversal UI
+globs: components/**/*.tsx
+alwaysApply: false
+---
+
+# Component Patterns
+
+Conventions for building components in `components/transversal/`.
+
+## Structure
+
+- Use **CVA** (`class-variance-authority`) for variant-based styling
+- Use **`cn()`** from `@/lib/utils/cn` to merge classNames
+- Use **`React.forwardRef`** when the component wraps a DOM element that may need refs (buttons, inputs, cards)
+- Set **`displayName`** on all components for debugging
+
+## Variants
+
+```tsx
+// ✅ GOOD - CVA with variants and defaultVariants
+const buttonVariants = cva("base-classes", {
+  variants: {
+    variant: { default: "...", secondary: "..." },
+    size: { default: "...", sm: "..." },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+})
+```
+
+For simple variant maps (e.g. Alert), use `Record<Variant, { ... }>` instead of CVA.
+
+## Props
+
+- Extend `React.HTMLAttributes` or `React.ButtonHTMLAttributes` when appropriate
+- Use `VariantProps<typeof componentVariants>` for variant props
+- Export the props interface
+
+```tsx
+// ✅ GOOD
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {}
+```
+
+## Styling
+
+- Tailwind only; no inline styles or CSS modules
+- Include **dark mode** variants (`dark:`) for all color-related classes
+- Use design tokens: `primary-*`, `secondary-*`, `slate-*`, etc.
+
+## Exports
+
+- Export the component and its variants: `export { Button, buttonVariants }`
+- Form components may export only the component when they reuse `inputVariants` from Input

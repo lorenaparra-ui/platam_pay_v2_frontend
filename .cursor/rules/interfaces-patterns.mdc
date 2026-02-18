@@ -1,0 +1,52 @@
+---
+description: Conventions for defining types and interfaces in interfaces/
+globs: interfaces/**/*.ts
+alwaysApply: false
+---
+
+# Interfaces & Types
+
+All shared types live in `interfaces/`. Two files exist:
+- `interfaces/form.ts` — form field contracts
+- `interfaces/section.ts` — section/step layout contracts
+
+## Form fields (`interfaces/form.ts`)
+
+Form components receive a `FormField<T>` prop that includes everything needed to render and validate a field:
+
+```ts
+// ✅ Form component props must extend FormField<T> (not repeat its fields)
+export type InputProps<T extends FieldValues> =
+  Omit<FormField<T>, "control"> & { control: Control<T> }
+```
+
+Key fields in `FormField<T>`:
+- `name: Path<T>` — ties the field to the form schema
+- `control: Control<T>` — react-hook-form control
+- `rules?: RegisterOptions<T>` — validation rules
+- `dependency? / dependencyValue?` — conditional visibility
+
+## Section layout (`interfaces/section.ts`)
+
+Use `FormFieldConfig` (= `FormField<any>` without `control`) to configure fields declaratively:
+
+```ts
+// ✅ Use typefield (FieldType enum) to identify which component to render
+const fields: FormFieldConfig[] = [
+  { typefield: FieldType.Input, name: "email", label: "Email" },
+  { typefield: FieldType.Select, name: "role", label: "Role", options: [...] },
+]
+```
+
+`SectionInformationField` groups fields into a named section with optional column layout:
+
+```ts
+{ section: "Datos personales", columns: 2, fields: [...] }
+```
+
+## Rules
+
+- ❌ Do not define local field config types in pages or components — use `FormFieldConfig`
+- ❌ Do not add `control` to `FormFieldConfig` — it is injected at render time
+- ✅ Use `FieldType` enum when identifying field types, never plain strings
+- ✅ Keep `interfaces/` free of component imports (except `inputVariants` used for typing)
