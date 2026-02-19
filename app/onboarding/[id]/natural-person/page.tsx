@@ -22,7 +22,7 @@ export default function NaturalPersonPage({ params }: { params: Promise<{ id: st
     const salesRepresentative = searchParams.get("salesRepresentative");
 
     const { documentTypes, businessTypes, businessSeniority, cities, phoneCodes } = useConfigData();
-    console.log('>>>><',  businessTypes, )
+    
     const [salesRepresentatives, setSalesRepresentatives] = useState<any[]>([]);
 
     useEffect(() => {

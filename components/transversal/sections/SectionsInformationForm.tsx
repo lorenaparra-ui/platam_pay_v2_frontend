@@ -61,7 +61,6 @@ export const SectionInformationForm = memo(<T extends FieldValues>({
   const formValues = useWatch({ control });
 
   useEffect(() => {
-    console.log(`[${section}] Form Values Updated:`, formValues);
   }, [formValues, section]);
 
   return (

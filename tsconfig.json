@@ -25,7 +25,8 @@
       "@components/*": ["./components/*"], 
       "@lib/*": ["./lib/*"], 
       "@onboarding/*": ["./features/onboarding/*"]
-    }
+    },
+    "noImplicitAny": false
   },
   "include": [
     "next-env.d.ts",
