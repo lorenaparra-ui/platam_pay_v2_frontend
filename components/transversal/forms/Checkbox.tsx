@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Check } from "lucide-react";
 import { Control, Controller, FieldValues, useWatch } from "react-hook-form";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/utils/cn";
 import { FormField } from "@/interfaces/form";
 
 export type CheckboxProps<T extends FieldValues> = Omit<
   FormField<T>,
   "control"
-> & { control: Control<T>; dependency?: string; dependencyValue?: string | number | Date  };
+> & { control: Control<T>; dependency?: string };
 
 export const Checkbox = <T extends FieldValues>({
   name,

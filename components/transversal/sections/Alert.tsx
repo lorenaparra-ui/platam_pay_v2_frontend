@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/utils/cn"
 
 export type AlertVariant = "primary" | "secondary" | "tertiary" | "warning"
 

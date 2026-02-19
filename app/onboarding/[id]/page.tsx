@@ -55,7 +55,7 @@ export default function PartnerPage({ params }: { params: Promise<{ id: string }
                         descriptionClassName="text-light-100 text-sm mb-4 dark:text-white"
                     >
                         <div className="w-full xl:flex justify-between gap-2">
-                            <Link className="border border-primary px-6 py-2.5 rounded-lg text-primary-600 dark:text-light-900 hover:text-primary-700 font-medium inline-flex items-center gap-2 mb-6 xl:mb-0" href={`/onboarding/${id}/natural-person`}>Comenzar solicitud para personas</Link>
+                            <Link className="border border-primary px-6 py-2.5 rounded-lg text-primary-600 dark:text-light-900 hover:text-primary-700 font-medium inline-flex items-center gap-2 mb-6 xl:mb-0" href={`/onboarding/${id}/natural-person?application_type=sales_representative`}>Comenzar solicitud para personas</Link>
                             <Link className="border border-primary px-6 py-2.5 rounded-lg text-primary-600 dark:text-light-900 hover:text-primary-700 font-medium inline-flex items-center gap-2" href={`/onboarding/${id}/legal-entity`}> Comenzar solicitud para empresas</Link>
                         </div>
                     </InformationCard>
@@ -75,7 +75,7 @@ export default function PartnerPage({ params }: { params: Promise<{ id: string }
                         descriptionClassName="text-light-100 text-sm mb-4 dark:text-white"
                     >
                        <div className="w-full flex justify-center" >
-                            <Link className=" border border-primary px-6 py-2.5 rounded-lg text-primary-600 dark:text-light-900 hover:text-primary-700 font-medium inline-flex items-center gap-2 mb-6 xl:mb-0" href={`/onboarding/${id}/natural-person?salesRepresentative=${id}`}>Comenzar solicitud para personas</Link>
+                            <Link className=" border border-primary px-6 py-2.5 rounded-lg text-primary-600 dark:text-light-900 hover:text-primary-700 font-medium inline-flex items-center gap-2 mb-6 xl:mb-0" href={`/onboarding/${id}/natural-person`}>Comenzar solicitud para personas</Link>
                         </div>
                     </InformationCard>
 

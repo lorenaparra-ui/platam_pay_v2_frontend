@@ -1,4 +1,3 @@
-import { ConfigDataProvider } from "@providers/ConfigDataProvider";
 import { Header } from "@/components/transversal/sections/Header";
 import { ThemeToggle } from "@/components/transversal/buttons/ThemeToggle";
 
@@ -8,8 +7,7 @@ export default function Layout({
     children: React.ReactNode;
 }>) {
     return (
-        <ConfigDataProvider>
-            <div className="min-h-screen bg-light-50 dark:bg-dark-950 transition-colors duration-300 font-sans">
+        <div className="min-h-screen bg-light-50 dark:bg-dark-950 transition-colors duration-300 font-sans">
                 <Header
                     primaryLogo={
                         <div className="flex items-center gap-2">
@@ -38,6 +36,5 @@ export default function Layout({
                     {children}
                 </main>
             </div>
-        </ConfigDataProvider>
     );
 }

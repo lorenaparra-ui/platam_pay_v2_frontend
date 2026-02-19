@@ -1,6 +1,6 @@
 
 import * as React from "react"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/utils/cn"
 import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form"
 import { ChevronDown, Check } from "lucide-react"
 

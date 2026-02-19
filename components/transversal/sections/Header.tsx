@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/utils/cn";
 import { Button } from "@/components/transversal/buttons/Button";
 import { Menu, X } from "lucide-react";
 

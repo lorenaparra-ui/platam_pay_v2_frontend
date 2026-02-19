@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/utils/cn"
 import { inputVariants } from "./Input"
 import { ChevronDown } from "lucide-react"
 import { Control, Controller, FieldValues, useWatch } from "react-hook-form"
@@ -24,8 +24,9 @@ export const Select = <T extends FieldValues>({
   optionsName,
   ...props
 }: SelectProps<T>) => {
-  const { dependency, dependencyValue } = props;
+  const { dependency, dependencyValue, ...restProps } = props;
   const depCurrent = dependency ? useWatch({ control, name: dependency as any }) : undefined;
+
   if (dependency && depCurrent !== dependencyValue) {
     return null;
   }
@@ -55,7 +56,7 @@ export const Select = <T extends FieldValues>({
                 )}
                 {...field}
                 value={field.value ?? ""}
-                {...props}
+                {...restProps}
               >
                 {options.map((opt) => (
                   <option key={opt.value} value={opt.value}>

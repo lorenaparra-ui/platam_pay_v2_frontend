@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cn } from "@/lib/utils/cn"
+import { cn } from "@/utils/cn"
 import { inputVariants } from "./Input"
 import { Control, Controller, FieldValues, Path, RegisterOptions, useWatch } from "react-hook-form"
 import { VariantProps } from "class-variance-authority"

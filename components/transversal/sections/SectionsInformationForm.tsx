@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/transversal/forms/Checkbox";
 import { DatePicker } from "@/components/transversal/forms/DatePicker";
 import { FieldType, FormFieldConfig, SectionInformationField } from "@/interfaces/section";
 import { Control, FieldValues, useWatch } from "react-hook-form";
-import { memo, useEffect } from "react";
+import { memo, useEffect, type ComponentProps } from "react";
 import { FormField } from "@/interfaces/form";
 import { SearchSelect } from "../forms/SearchSelect";
 import { InputWithSelect } from "../forms/InputWithSelect";
@@ -32,9 +32,9 @@ const renderField = <T extends FieldValues>(
     case FieldType.Textarea:
       return <Textarea {...(commonProps as any)} />;
     case FieldType.Checkbox:
-      return <Checkbox {...commonProps} />;
+      return <Checkbox {...(commonProps as React.ComponentProps<typeof Checkbox>)} />;
     case FieldType.Date:
-      return <DatePicker {...commonProps} />;
+      return <DatePicker {...(commonProps as React.ComponentProps<typeof DatePicker>)} />;
     case FieldType.SearchSelect:
       return field.options ? <SearchSelect {...(commonProps as any)}  items={field.options} /> : null;
     case FieldType.InputWithSelect:

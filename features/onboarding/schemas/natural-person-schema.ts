@@ -1,8 +1,10 @@
 import { z } from "zod";
 
-export const naturalPersonSchema = z.object({
+export const naturalPersonSchema = z
+  .object({
   patner_id: z.string().optional().or(z.literal("")), // Puede venir vacío
-  patner_category_id: z.string().min(1, "Requerido"),
+  patner_category_id: z.string().optional().or(z.literal("")),
+  application_type: z.string().optional(),
   sales_rep_id: z.string().min(1, "Requerido"),
   
   // Datos Personales
@@ -42,6 +44,11 @@ export const naturalPersonSchema = z.object({
   
   // Solicitud
   clr_requested_loc: z.number().min(1, "Monto solicitado requerido"),
-});
+})
+  .superRefine((data, ctx) => {
+    if (data.application_type === "sales_representative" && (!data.patner_category_id || data.patner_category_id.length < 1)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Categoría de socio requerida", path: ["patner_category_id"] });
+    }
+  });
 
 export type NaturalPersonSchema = z.infer<typeof naturalPersonSchema>;

@@ -1,4 +1,5 @@
 import axios, { AxiosError, type AxiosInstance, type InternalAxiosRequestConfig, type AxiosResponse } from 'axios'
+import { toast } from 'react-toastify'
 
 export interface ApiErrorResponse {
   message: string

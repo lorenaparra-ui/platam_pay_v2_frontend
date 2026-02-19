@@ -1,7 +1,7 @@
 import { SearchOption, FormField } from '@/interfaces/form';
 import { Control, Controller, FieldValues, Path, useWatch } from 'react-hook-form';
 import { useRef, useEffect, useState } from "react";
-import { useWordFilter } from "@lib/hooks/useWordFilter"
+import { useWordFilter } from "@/hooks/useWordFilter"
 
 export interface SearchSelectProps<T extends FieldValues>
     extends Pick<FormField<T>, 'label' | 'placeholder' | 'className' | 'dependency' | 'dependencyValue' | 'rules'> {
@@ -92,9 +92,9 @@ export const SearchSelect = <T extends FieldValues>({
                         <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             {filteredItems?.length > 0 ? (
                                 <ul className="py-1">
-                                    {filteredItems?.map((item) => (
+                                    {filteredItems?.map((item, index) => (
                                         <li
-                                            key={item.id}
+                                            key={index}
                                             className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-gray-700 dark:text-gray-200 transition-colors"
                                             onClick={() => handleSelectItem(item, field.onChange)}
                                         >

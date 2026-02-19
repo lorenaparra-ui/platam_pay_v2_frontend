@@ -49,5 +49,7 @@ export interface FormField<T extends FieldValues>
 
 export interface FormStep {
   step: number
+  dependency?: string;
+  dependencyValue?: string 
   sections: SectionInformationField[]
 }

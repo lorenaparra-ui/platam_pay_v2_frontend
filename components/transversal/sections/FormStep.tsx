@@ -1,17 +1,45 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Control, FieldValues, UseFormTrigger } from "react-hook-form";
+import { Control, FieldValues, UseFormGetValues, UseFormTrigger, useWatch } from "react-hook-form";
 import { Check } from "lucide-react";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/utils/cn";
 import { FormStep } from "@/interfaces/form";
+import type { FormFieldConfig } from "@/interfaces/section";
+import type { Option } from "@/interfaces/form";
 import { SectionInformationForm } from "./SectionsInformationForm";
 import { Button } from "@/components/transversal/buttons/Button";
+
+/** Determina si un paso debe mostrarse según dependency/dependencyValue del paso. */
+function isStepVisible(
+  step: FormStep,
+  getValues: UseFormGetValues<FieldValues>
+): boolean {
+  if (!step.dependency || step.dependencyValue === undefined) return true;
+  const current = getValues(step.dependency);
+  return current === step.dependencyValue;
+}
+
+/** Determina si un campo debe validarse según sus dependencias (solo se validan campos visibles). */
+function isFieldVisible(
+  field: FormFieldConfig,
+  getValues: UseFormGetValues<FieldValues>
+): boolean {
+  if (!field.dependency) return true;
+  const current = getValues(field.dependency);
+  const expected = field.dependencyValue;
+  if (expected === undefined || expected === null) return false;
+  if (typeof expected === "object" && expected !== null && "value" in expected) {
+    return current === (expected as Option).value;
+  }
+  return current === expected;
+}
 
 interface StepperProps<T extends FieldValues> {
     steps: FormStep[];
     control: Control<FieldValues>;
     trigger: UseFormTrigger<T>;
+    getValues: UseFormGetValues<FieldValues>;
     orientation?: 'horizontal' | 'vertical';
     submitLabel?: string;
     isSubmitting?: boolean;
@@ -22,34 +50,43 @@ export const Stepper = <T extends FieldValues>({
     steps,
     control,
     trigger,
+    getValues,
     orientation = 'horizontal',
     submitLabel = "Enviar Solicitud",
     isSubmitting = false,
 }: StepperProps<T>) => {
     const [currentStep, setCurrentStep] = useState(1);
-    const totalSteps = steps.length;
+    useWatch({ control }); // re-render cuando cambian valores del formulario (para recalcular pasos visibles)
+
+    const visibleSteps = steps.filter((step) => isStepVisible(step, getValues));
+    const totalSteps = visibleSteps.length;
+
+    const currentStepIndex = visibleSteps.findIndex((s) => s.step === currentStep);
+    const effectiveIndex = currentStepIndex >= 0 ? currentStepIndex : 0;
+    const currentStepData = visibleSteps[effectiveIndex] ?? null;
+    const isLastStep = effectiveIndex === visibleSteps.length - 1;
 
     const handleNext = async () => {
-        const currentStepData = steps.find(s => s.step === currentStep);
         if (!currentStepData) return;
 
-        // Collect all field names in this step for validation
-        const fieldsToValidate = currentStepData.sections.flatMap(section =>
-            section.fields.map(field => field.name)
-        );
+        const allFields = currentStepData.sections.flatMap((section) => section.fields);
+        const visibleFields = allFields.filter((field) => isFieldVisible(field, getValues));
+        const fieldsToValidate = visibleFields.map((field) => field.name);
 
-        const isValid = await trigger(fieldsToValidate as any);
+        const isValid =
+            fieldsToValidate.length > 0
+                ? await trigger(fieldsToValidate as Parameters<UseFormTrigger<T>>[0])
+                : true;
         if (isValid) {
-            setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+            const nextStep = visibleSteps[effectiveIndex + 1];
+            if (nextStep) setCurrentStep(nextStep.step);
         }
     };
 
     const handlePrev = () => {
-        setCurrentStep(prev => Math.max(prev - 1, 1));
+        const prevStep = visibleSteps[effectiveIndex - 1];
+        if (prevStep) setCurrentStep(prevStep.step);
     };
-
-    const currentStepData = steps.find(s => s.step === currentStep);
-    const isLastStep = currentStep === totalSteps;
 
     // Helper to get step title (using first section title as fallback)
     const getStepTitle = (step: FormStep) => {
@@ -66,9 +103,9 @@ export const Stepper = <T extends FieldValues>({
                 "flex",
                 orientation === 'vertical' ? "flex-col w-64 shrink-0 space-y-8 border-r border-slate-100 dark:border-slate-800 pr-8" : "flex-row justify-between items-center w-full  dark:border-slate-800 pb-6"
             )}>
-                {steps.map((step, index) => {
+                {visibleSteps.map((step, index) => {
                     const isActive = step.step === currentStep;
-                    const isCompleted = step.step < currentStep;
+                    const isCompleted = effectiveIndex > index;
 
                     return (
                         <div key={step.step} className={cn(
@@ -77,7 +114,7 @@ export const Stepper = <T extends FieldValues>({
                         )}>
                             <div className={cn(
                                 "flex items-center",
-                                orientation === 'horizontal' && index !== steps.length - 1 && "w-full"
+                                orientation === 'horizontal' && index !== visibleSteps.length - 1 && "w-full"
                             )}>
                                 <div className={cn(
                                     "flex items-center gap-3 relative z-10",
@@ -89,7 +126,7 @@ export const Stepper = <T extends FieldValues>({
                                             isCompleted ? "border-primary-500 bg-primary-500 " :
                                                 "border-slate-200 text-slate-400 dark:border-slate-700 dark:text-slate-500"
                                     )}>
-                                        {isCompleted ? <Check className="w-4 h-4" /> : step.step}
+                                        {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
                                     </div>
                                     <span className={cn(
                                         "font-medium text-sm transition-colors duration-300",
@@ -102,7 +139,7 @@ export const Stepper = <T extends FieldValues>({
                                 </div>
 
                                 {/* Connector Line (Horizontal) */}
-                                {orientation === 'horizontal' && index !== steps.length - 1 && (
+                                {orientation === 'horizontal' && index !== visibleSteps.length - 1 && (
                                     <div className="flex-1 h-[2px] mx-4 bg-slate-100 dark:bg-primary-500 relative">
                                         <div 
                                             className="absolute top-0 left-0 h-full  transition-all duration-500 ease-out"
@@ -131,7 +168,7 @@ export const Stepper = <T extends FieldValues>({
                 {/* Navigation Buttons */}
                 <div className="flex justify-between pt-6 border-t border-slate-100 dark:border-slate-800">
                     <div className="flex gap-3">
-                        {currentStep > 1 && (
+                        {effectiveIndex > 0 && (
                             <Button
                                 type="button"
                                 variant="secondary"

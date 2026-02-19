@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/utils/cn";
 import { inputVariants } from "./Input";
 import { Calendar } from "lucide-react";
 import { Control, Controller, FieldValues, useWatch } from "react-hook-form";
