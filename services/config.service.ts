@@ -20,7 +20,7 @@ export async function fetchConfigData(): Promise<ConfigData> {
       items.map((item) => ({ value: item.value, label: item.label }))
     ),
     Promise.resolve(transversalService.getAllBusinessSeniority()),
-    Promise.resolve(transversalService.getAllCities(DEFAULT_COUNTRY_ID)),
+    Promise.resolve(transversalService.getAllCities()),
   ]);
 
  

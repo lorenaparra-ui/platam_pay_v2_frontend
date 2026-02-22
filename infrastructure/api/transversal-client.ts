@@ -19,7 +19,7 @@ export class ApiError extends Error {
   }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_PARTNER_API_URL || "http://localhost:8000/api/v1/partners";
+const BASE_URL = process.env.NEXT_PUBLIC_TRANSVERSAL_API_URL || "http://localhost:3001";
 
 // 1. Instancia base reutilizable
 export const api: AxiosInstance = axios.create({
@@ -64,18 +64,23 @@ api.interceptors.response.use(
       switch (error.response.status) {
         case 400:
           console.error('[API] Bad Request:', normalizedError)
+          toast.error(normalizedError.message || "Solicitud incorrecta (400)")
           break
         case 401:
           console.error('[API] Unauthorized:', normalizedError)
+          toast.error(normalizedError.message || "No autorizado (401)")
           break
         case 403:
           console.error('[API] Forbidden:', normalizedError)
+          toast.error(normalizedError.message || "Prohibido (403)")
           break
         case 404:
           console.error('[API] Not Found:', normalizedError)
+          toast.error(normalizedError.message || "No encontrado (404)")
           break
         case 500:
           console.error('[API] Server Error:', normalizedError)
+          toast.error(normalizedError.message || "Error interno del servidor (500)")
           break
       }
     } else if (error.request) {
@@ -104,7 +109,7 @@ api.interceptors.response.use(
   }
 )
 
-export const partnerClient = {
+export const transversalClient = {
   get: <T>(url: string, config = {}) => api.get<any, T>(url, config),
   post: <T>(url: string, body: any, config = {}) => api.post<any, T>(url, body, config),
 }

@@ -1,6 +1,7 @@
-
 import ciiuCodes from "../constants/ciiu-codes.json";
-
+import { transversalClient } from "@/infrastructure/api/transversal-client";
+import { CitiesResponse, parseCitiesToOptions } from "@/schemas/transversal.schema";
+import type { Option } from "@/interfaces/form";
 
 const flattenedCiiuCodes = ciiuCodes.secciones.flatMap(seccion => 
   seccion.divisiones.flatMap(division => 
@@ -33,10 +34,10 @@ export const transversalService = {
       value: item.codigo
     }));
   },
-  getAllCities: (CountryId: number) => [{ value: "BOGOTA", label: "BOGOTA" },
-  { value: "MEDELLIN", label: "MEDELLIN" },
-  { value: "CALI", label: "CALI" },
-  { value: "BARRANQUILLA", label: "BARRANQUILLA" }],
+  getAllCities: async (): Promise<Option[]> => {
+    const data = await transversalClient.get<CitiesResponse>("/transversal/cities");
+    return parseCitiesToOptions(data);
+  },
   getAllDocumentTypes: () => [{ value: "CC", label: "Cédula de Ciudadanía" },
   { value: "CE", label: "Cédula de Extranjería" },
   ],
