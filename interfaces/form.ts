@@ -2,6 +2,9 @@ import { inputVariants } from "@/components/transversal/forms/Input";
 import { VariantProps } from "class-variance-authority";
 import { Control, FieldValues, Path, RegisterOptions } from "react-hook-form";
 import { SectionInformationField } from "./section";
+import { Link } from "./components";
+
+export type { Link };
 
 
 export interface SearchOption {
@@ -26,6 +29,7 @@ export interface FormField<T extends FieldValues>
   imageKey?: string;
   label: string;
   labelKey?: string;
+  links?: Link[];
   maxDate?: Date | string;
   minDate?: Date | string;
   name: Path<T>;

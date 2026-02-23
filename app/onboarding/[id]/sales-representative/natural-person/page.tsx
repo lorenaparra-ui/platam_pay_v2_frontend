@@ -84,12 +84,14 @@ export default function NaturalPersonPage({
           </p>
         </div>
       </div>
+      {/* 
       <CreditaApplicationForm
         formFields={formFields}
-        schema={naturalPersonSchema}
+        schema={legalEntitySchema}
         onSubmit={handleSubmit}
-        defaultValues={defaultValuesNaturalPerson}
+        defaultValues={defaultValuesLegalEntity}
       />
+      */}
     </div>
   );
 }

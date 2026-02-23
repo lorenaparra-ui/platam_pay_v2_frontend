@@ -83,12 +83,14 @@ export default function LegalEntityPage({
           </p>
         </div>
       </div>
+      {/* 
       <CreditaApplicationForm
         formFields={formFields}
         schema={legalEntitySchema}
         onSubmit={handleSubmit}
         defaultValues={defaultValuesLegalEntity}
       />
+      */}
     </div>
   );
 }
