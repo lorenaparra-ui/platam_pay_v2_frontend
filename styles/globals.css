@@ -123,6 +123,17 @@
   --color-info-400: #0FD6F5;
   --color-info-500: #06B6D4;
   --color-info-600: #0891B2;
+
+  /* Partner Dynamic Colors (defaults) */
+  --partner-primary: var(--color-primary-500);
+  --partner-primary-hover: var(--color-primary-600);
+  --partner-primary-light: var(--color-primary-100);
+  --partner-secondary: var(--color-secondary-500);
+  --partner-secondary-hover: var(--color-secondary-600);
+  --partner-light: var(--color-light-950);
+  --partner-light-hover: var(--color-light-900);
+  --partner-text-on-primary: #ffffff;
+  --partner-text-on-light: var(--color-light-50);
 }
 
 .dark {
@@ -143,6 +154,11 @@
   --background-800: #f1f5f9;
   --background-900: #f8fafc;
   --background-950: #ffffff;
+
+  /* Partner Dynamic Colors (dark mode defaults) */
+  --partner-light: var(--color-dark-800);
+  --partner-light-hover: var(--color-dark-700);
+  --partner-text-on-light: var(--color-dark-50);
 }
 
 @theme inline {
@@ -250,6 +266,17 @@
 
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Fira Code', Monaco, 'Courier New', monospace;
+
+  /* Partner Dynamic Colors */
+  --color-partner-primary: var(--partner-primary);
+  --color-partner-primary-hover: var(--partner-primary-hover);
+  --color-partner-primary-light: var(--partner-primary-light);
+  --color-partner-secondary: var(--partner-secondary);
+  --color-partner-secondary-hover: var(--partner-secondary-hover);
+  --color-partner-light: var(--partner-light);
+  --color-partner-light-hover: var(--partner-light-hover);
+  --color-partner-text-on-primary: var(--partner-text-on-primary);
+  --color-partner-text-on-light: var(--partner-text-on-light);
 }
 
 @layer base {
