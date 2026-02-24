@@ -1,7 +1,7 @@
 import { useRef, useCallback, FocusEvent, KeyboardEvent, ChangeEvent } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/utils/cn"
-import { Control, Controller, FieldValues, useWatch } from "react-hook-form"
+import { Control, Controller, FieldValues } from "react-hook-form"
 import { FormField } from "@/interfaces/form"
 
 // ─── Variants (inherited from Input) ───────────────────────────────────────────
@@ -153,27 +153,15 @@ const InputNumber = <T extends FieldValues>({
     defaultValue,
     dependency,
     dependencyValue,
-    numberFormatOptions, // kept for API compat
+    numberFormatOptions,
     optionsName,
     ...htmlProps
   } = restFormField as any
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // ALL hooks are called here, unconditionally, before any early return.
-  // This is the fix for the "change in order of Hooks" error.
-  // ─────────────────────────────────────────────────────────────────────────────
-
-  // FIX 1: useWatch always runs. When `dependency` is undefined we watch `name`
-  // itself (harmless); the guard below compares `dependency !== undefined` before
-  // using the watched value.
-  const depCurrent = useWatch({ control, name: (dependency ?? name) as any })
-
-  // FIX 2: All useRef calls are now above the early return.
   const inputRef = useRef<HTMLInputElement | null>(null)
   const prefixRef = useRef<HTMLSpanElement | null>(null)
   const suffixRef = useRef<HTMLSpanElement | null>(null)
 
-  // Derived values (not hooks — safe to compute anywhere, but kept here for clarity)
   const formatter = buildFormatter(numberFormatLocale, {
     useGrouping,
     minFractionDigits,
@@ -192,15 +180,6 @@ const InputNumber = <T extends FieldValues>({
       ...(pr !== undefined ? { paddingRight: pr } : {}),
     }
   }, [prefix, suffix])
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  // FIX 3: Early return AFTER all hooks have been called.
-  // ─────────────────────────────────────────────────────────────────────────────
-  if (dependency !== undefined && depCurrent !== dependencyValue) {
-    return null
-  }
-
-  // Merge validation rules with min/max guards
   const mergedRules = {
     ...rules,
     validate: {

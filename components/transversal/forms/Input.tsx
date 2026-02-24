@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/utils/cn"
-import { Control, Controller, FieldValues, useWatch } from "react-hook-form"
+import { Control, Controller, FieldValues } from "react-hook-form"
 import { FormField } from "@/interfaces/form"
 
 const inputVariants = cva(
@@ -39,12 +39,7 @@ const Input = <T extends FieldValues>({
   ...props
 }: InputProps<T>) => {
   const { defaultValue, dependency, dependencyValue, numberFormatLocale, numberFormatOptions, optionsName, ...restProps } = props;
-  const depCurrent = dependency ? useWatch({ control, name: dependency }) : undefined;
-  if (dependency && depCurrent !== dependencyValue) {
-    return null;
-  }
 
-  console.log(defaultValue, dependency, dependencyValue )
   return (
     <div className="mb-4">
        <label

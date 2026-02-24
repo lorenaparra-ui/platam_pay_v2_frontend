@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Check } from "lucide-react";
-import { Controller, FieldValues, Path, useWatch } from "react-hook-form";
+import { Controller, FieldValues } from "react-hook-form";
 import { cn } from "@/utils/cn";
 import { FormField, Link } from "@/interfaces/form";
 
@@ -75,19 +75,12 @@ export const Checkbox = <T extends FieldValues>({
   label,
   rules,
   className,
-  dependency,
-  dependencyValue,
   links,
 }: CheckboxProps<T>) => {
-  const depCurrent = useWatch({ control, name: (dependency ?? name) as Path<T> });
-
   if (!control) {
     console.error(
       `Checkbox component (name="${name}") is missing 'control' prop and is not wrapped in a FormProvider.`,
     );
-    return null;
-  }
-  if (dependency && depCurrent !== dependencyValue) {
     return null;
   }
 

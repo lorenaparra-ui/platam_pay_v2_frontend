@@ -1,5 +1,5 @@
 import { SearchOption, FormField } from '@/interfaces/form';
-import { Control, Controller, FieldValues, Path, useWatch } from 'react-hook-form';
+import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { useRef, useEffect, useState } from "react";
 import { useWordFilter } from "@/hooks/useWordFilter"
 
@@ -29,12 +29,6 @@ export const SearchSelect = <T extends FieldValues>({
     const [searchTerm, setSearchTerm] = useState(initialValue);
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
-
-    // Dependencia condicional
-    const depCurrent = dependency ? useWatch({ control, name: dependency }) : undefined;
-    if (dependency && depCurrent !== dependencyValue) {
-        return null;
-    }
 
     const filteredItems = useWordFilter(items, searchTerm, 'label');
 

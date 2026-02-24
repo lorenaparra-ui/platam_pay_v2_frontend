@@ -3,6 +3,7 @@ import { VariantProps } from "class-variance-authority";
 import { Control, FieldValues, Path, RegisterOptions } from "react-hook-form";
 import { SectionInformationField } from "./section";
 import { Link } from "./components";
+import { FieldCondition } from "./condition";
 
 export type { Link };
 
@@ -10,22 +11,26 @@ export type { Link };
 export interface SearchOption {
   id: string | number;
   label: string;
-  value: any;
+  value: string | number;
 }
 
 export interface Option {
   value: string;
   label: string;
-};
+}
 
 export interface FormField<T extends FieldValues>
   extends VariantProps<typeof inputVariants> {
   className?: string;
   control: Control<T>;
   defaultSelectValue?: string;
-  defaultValue?: Path<T> extends keyof T ? T[Path<T>] : any;
+  defaultValue?: Path<T> extends keyof T ? T[Path<T>] : unknown;
+  /** @deprecated Use `condition` instead */
   dependency?: Path<T>;
+  /** @deprecated Use `condition` instead */
   dependencyValue?: string | number | Date | Option | Option[];
+  /** New declarative condition system */
+  condition?: FieldCondition<T>;
   imageKey?: string;
   label: string;
   labelKey?: string;
@@ -51,9 +56,13 @@ export interface FormField<T extends FieldValues>
   valueKey?: string;
 }
 
-export interface FormStep {
-  step: number
-  dependency?: string;
-  dependencyValue?: string 
-  sections: SectionInformationField[]
+export interface FormStep<T extends FieldValues = FieldValues> {
+  step: number;
+  /** @deprecated Use `condition` instead */
+  dependency?: Path<T>;
+  /** @deprecated Use `condition` instead */
+  dependencyValue?: string | number | boolean;
+  /** New declarative condition system for step visibility */
+  condition?: FieldCondition<T>;
+  sections: SectionInformationField<T>[];
 }

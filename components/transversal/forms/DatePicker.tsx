@@ -1,10 +1,9 @@
 import { cn } from "@/utils/cn";
 import { inputVariants } from "./Input";
 import { Calendar } from "lucide-react";
-import { Control, Controller, FieldValues, useWatch } from "react-hook-form";
+import { Control, Controller, FieldValues } from "react-hook-form";
 import { FormField } from "@/interfaces/form";
 
-// Helper para formatear fecha a YYYY-MM-DD local
 const formatDate = (date: Date): string => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -27,14 +26,12 @@ export const DatePicker = <T extends FieldValues>({
   maxDate,
   dependency,
   dependencyValue,
-  ...props
+  defaultValue: _defaultValue,
+  defaultSelectValue,
+  options,
+  optionsName,
+  ...restProps
 }: DatePickerProps<T>) => {
-  const depCurrent = dependency
-    ? useWatch({ control, name: dependency as any })
-    : undefined;
-  if (dependency && depCurrent !== dependencyValue) {
-    return null;
-  }
   const min = minDate instanceof Date ? formatDate(minDate) : minDate;
   const max = maxDate instanceof Date ? formatDate(maxDate) : maxDate;
 
@@ -69,7 +66,7 @@ export const DatePicker = <T extends FieldValues>({
                 max={max}
                 {...field}
                 value={field.value ?? ""}
-                {...props}
+                {...restProps}
               />
               <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400 pointer-events-none" />
             </div>

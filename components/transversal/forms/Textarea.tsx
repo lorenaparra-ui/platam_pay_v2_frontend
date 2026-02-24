@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "@/utils/cn"
 import { inputVariants } from "./Input"
-import { Control, Controller, FieldValues, Path, RegisterOptions, useWatch } from "react-hook-form"
+import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form"
 import { VariantProps } from "class-variance-authority"
 
 export interface TextareaProps<T extends FieldValues>
@@ -26,10 +26,6 @@ export const Textarea = <T extends FieldValues>({
   dependencyValue,
   ...props
 }: TextareaProps<T>) => {
-  const depCurrent = dependency ? useWatch({ control, name: dependency as any }) : undefined
-  if (dependency && depCurrent !== dependencyValue) {
-    return null
-  }
   return (
     <div className="mb-4">
       <label
