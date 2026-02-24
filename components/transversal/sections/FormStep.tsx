@@ -9,6 +9,7 @@ import type { FormFieldConfig } from "@/interfaces/section";
 import type { Option } from "@/interfaces/form";
 import { SectionInformationForm } from "./SectionsInformationForm";
 import { Button } from "@/components/transversal/buttons/Button";
+import { evaluateCondition, convertLegacyToCondition } from "@/utils/evaluateCondition";
 
 /** Determina si un paso debe mostrarse según dependency/dependencyValue del paso. */
 function isStepVisible(

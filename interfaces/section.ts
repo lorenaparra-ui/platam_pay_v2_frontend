@@ -12,6 +12,7 @@ export enum FieldType {
   Date = "date",
   InputWithSelect = "input-with-select",
   InputNumber = "input-number",
+  File = "file",
 }
 
 export type FormFieldConfig<T extends FieldValues = FieldValues> = Omit<FormField<T>, "control"> & {

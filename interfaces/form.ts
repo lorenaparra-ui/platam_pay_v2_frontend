@@ -54,6 +54,12 @@ export interface FormField<T extends FieldValues>
   prefix?: string;
   suffix?: string;
   valueKey?: string;
+  /** Para FileInput: tipos MIME o extensiones (ej. "image/*,.pdf") */
+  accept?: string;
+  /** Para FileInput: tamaño máximo por archivo en bytes */
+  maxSize?: number;
+  /** Para FileInput: permitir varios archivos */
+  multiple?: boolean;
 }
 
 export interface FormStep<T extends FieldValues = FieldValues> {

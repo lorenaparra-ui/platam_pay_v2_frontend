@@ -1,0 +1,86 @@
+import { FieldType } from "@/interfaces/section";
+import type { SectionInformationField } from "@/interfaces/section";
+
+export const businessDataSection: SectionInformationField = {
+  section: "Datos del Negocio",
+  columns: 2,
+  fields: [
+    {
+      name: "clr_bus_name",
+      label: "Nombre comercial del negocio",
+      typefield: FieldType.Input,
+      type: "text",
+      rules: { required: "Nombre comercial requerido" },
+    },
+    {
+      name: "clr_bus_type",
+      label: "Tipo de negocio",
+      typefield: FieldType.SearchSelect,
+      optionsName: "businessTypes",
+      placeholder: "Buscar",
+      rules: { required: "Tipo de negocio requerido" },
+    },
+    {
+      name: "pa_id",
+      label: "Categoría de Negocio",
+      typefield: FieldType.Select,
+      optionsName: "partnerCategories",
+      placeholder: "Buscar",
+      rules: { required: "Categoría de negocio requerida" },
+    },
+    {
+      name: "clr_bus_num_locations",
+      label: "Cantidad de locales",
+      typefield: FieldType.InputNumber,
+      type: "number",
+      useGrouping: false,
+      rules: { required: "Cantidad de locales requerida" },
+    },
+    {
+      name: "clr_bus_num_employees",
+      label: "Número de empleados",
+      typefield: FieldType.InputNumber,
+      type: "number",
+      useGrouping: false,
+      rules: { required: "Número de empleados requerido" },
+    },
+    {
+      name: "clr_bus_seniority",
+      label: "Antigüedad",
+      typefield: FieldType.Select,
+      optionsName: "businessSeniority",
+      rules: { required: "Antigüedad requerida" },
+    },
+    {
+      name: "clr_bus_flagship_m2",
+      label: "¿Cuál es el tamaño de tu local principal? (m²)",
+      typefield: FieldType.InputNumber,
+      type: "number",
+      useGrouping: false,
+      suffix: "m²",
+      rules: { required: "Tamaño requerido" },
+    },
+    {
+      name: "clr_has_rent",
+      label: "¿Arrienda el(los) local(es) donde opera su negocio?",
+      typefield: FieldType.Select,
+      options: [
+        { label: "Sí", value: "Si" },
+        { label: "No", value: "No" },
+      ],
+      rules: { required: "Requerido" },
+    },
+    {
+      name: "clr_rent",
+      label: "Valor mensual total de arriendos",
+      typefield: FieldType.InputNumber,
+      integerOnly: true,
+      useGrouping: true,
+      numberFormatLocale: "es-CO",
+      prefix: "$",
+      dependency: "clr_has_rent",
+      dependencyValue: "Si",
+      rules: { required: "Monto requerido" },
+    },
+  ],
+};

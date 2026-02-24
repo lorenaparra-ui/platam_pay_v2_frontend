@@ -85,6 +85,9 @@ export const legalEntitySchema = z
       .optional()
       .nullable(),
 
+    /** Archivos de estados financieros (visible cuando cupo >= 10M). */
+    clr_pj_eeff_files: z.array(z.any()).optional(),
+
     // Relación con el Cliente (Select + InputNumber condicional)
     alias: z.string().optional(),
     clr_bus_is_client: z.string().min(1, "Requerido"),
@@ -157,6 +160,21 @@ export const legalEntitySchema = z
           code: z.ZodIssueCode.custom,
           message: "Debe ser un valor entre 1 y 10",
           path: ["clr_sales_rep_confidence"],
+        });
+      }
+    }
+  })
+  .superRefine((data, ctx) => {
+    const requested = data.clr_requested_loc;
+    const num =
+      typeof requested === "string" ? Number(requested) : Number(requested ?? 0);
+    if (!Number.isNaN(num) && num >= 10_000_000) {
+      const files = data.clr_pj_eeff_files;
+      if (!files?.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Debe adjuntar los estados financieros cuando el cupo solicitado es mayor o igual a 10 millones",
+          path: ["clr_pj_eeff_files"],
         });
       }
     }

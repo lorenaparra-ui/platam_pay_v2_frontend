@@ -10,6 +10,7 @@ import { FormField } from "@/interfaces/form";
 import { SearchSelect } from "../forms/SearchSelect";
 import { InputWithSelect } from "../forms/InputWithSelect";
 import { InputNumber } from "../forms/InputNumber";
+import { FileInput } from "../forms/FileInput";
 import { FieldCondition } from "@/interfaces/condition";
 import {
   evaluateCondition,
@@ -89,6 +90,28 @@ const renderField = <T extends FieldValues>(
           placeholder={field.placeholder}
         />
       );
+
+    case FieldType.File: {
+      const {
+        typefield: _tf,
+        type: _t,
+        optionsName: _optName,
+        defaultValue: _dv,
+        defaultSelectValue: _dsv,
+        options: _opt,
+        ...fileRest
+      } = field;
+      return (
+        <FileInput<T>
+          {...fileRest}
+          control={control}
+          accept={field.accept}
+          maxSize={field.maxSize}
+          multiple={field.multiple}
+          placeholder={field.placeholder}
+        />
+      );
+    }
 
     default:
       return (
