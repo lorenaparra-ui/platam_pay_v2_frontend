@@ -4,6 +4,9 @@ import { inputVariants } from "./Input"
 import { ChevronDown } from "lucide-react"
 import { Control, Controller, FieldValues } from "react-hook-form"
 import { Option, FormField } from "@/interfaces/form"
+import { PLACEHOLDER_OPTION } from "@/constants/forms"
+
+
 
 export type SelectProps<T extends FieldValues> =
   Omit<FormField<T>, "type" | "options"> &
@@ -24,7 +27,13 @@ export const Select = <T extends FieldValues>({
   optionsName,
   ...props
 }: SelectProps<T>) => {
-  const { dependency, dependencyValue, ...restProps } = props;
+  const {
+    defaultValue: _defaultValue,
+    defaultSelectValue: _defaultSelectValue,
+    ...restProps
+  } = props;
+
+  const selectProps: React.SelectHTMLAttributes<HTMLSelectElement> = restProps;
 
   return (
     <div className="mb-4">
@@ -52,9 +61,9 @@ export const Select = <T extends FieldValues>({
                 )}
                 {...field}
                 value={field.value ?? ""}
-                {...restProps}
+                {...selectProps}
               >
-                {options.map((opt) => (
+                {[PLACEHOLDER_OPTION, ...options].map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>

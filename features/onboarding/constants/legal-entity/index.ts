@@ -18,7 +18,6 @@ export { shareholdersSection } from "./sections/shareholders-section";
 export { salesRepOpinionSection } from "./sections/sales-rep-opinion-section";
 
 export const defaultValuesLegalEntity = {
-  application_type: "legal_entity",
   pa_id: "",
   clr_cp_id: "",
   clr_hunter_id: "",
@@ -65,6 +64,7 @@ export const defaultValuesLegalEntity = {
       beneficial_owners: "",
     },
   ],
+  shareholding: 0,
   clr_pj_eeff: {
     id: "",
     url: "",
@@ -90,7 +90,11 @@ export const legalEntityFormFields: FormStep[] = [
   },
   {
     step: 3,
-    sections: [businessDataSection, financialInfoSection, clientRelationSection],
+    sections: [
+      businessDataSection,
+      financialInfoSection,
+      clientRelationSection,
+    ],
   },
   {
     step: 4,

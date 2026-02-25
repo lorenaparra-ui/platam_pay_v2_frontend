@@ -1,24 +1,13 @@
 import { FieldType } from "@/interfaces/section";
 import type { SectionInformationField } from "@/interfaces/section";
 
+export const SHAREHOLDERS_REPEATER_NAME = "clr_pj_shareholders_repeater";
+
 export const shareholdersSection: SectionInformationField = {
   section: "Datos de los accionistas",
-  columns: 1,
+  columns: 2,
+  repeaterName: SHAREHOLDERS_REPEATER_NAME,
   fields: [
-    {
-      name: "clr_pj_shareholders_repeater.0.shareholder_name",
-      label: "Nombres",
-      typefield: FieldType.Input,
-      type: "text",
-      rules: { required: "Nombres requeridos" },
-    },
-    {
-      name: "clr_pj_shareholders_repeater.0.shareholder_last_name",
-      label: "Apellidos",
-      typefield: FieldType.Input,
-      type: "text",
-      rules: { required: "Apellidos requeridos" },
-    },
     {
       name: "clr_pj_shareholders_repeater.0.shareholder_doc_type",
       label: "Tipo documento",
@@ -32,6 +21,20 @@ export const shareholdersSection: SectionInformationField = {
       typefield: FieldType.Input,
       type: "text",
       rules: { required: "Número de documento requerido" },
+    },
+    {
+      name: "clr_pj_shareholders_repeater.0.shareholder_name",
+      label: "Nombres",
+      typefield: FieldType.Input,
+      type: "text",
+      rules: { required: "Nombres requeridos" },
+    },
+    {
+      name: "clr_pj_shareholders_repeater.0.shareholder_last_name",
+      label: "Apellidos",
+      typefield: FieldType.Input,
+      type: "text",
+      rules: { required: "Apellidos requeridos" },
     },
     {
       name: "clr_pj_shareholders_repeater.0.shareholder_percent",

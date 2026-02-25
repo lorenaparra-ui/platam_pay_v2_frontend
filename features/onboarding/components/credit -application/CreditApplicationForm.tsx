@@ -2,6 +2,7 @@
 
 import { FormStep } from "@/interfaces/form";
 import type { Control, FieldValues, UseFormGetValues, UseFormHandleSubmit, UseFormReset, UseFormTrigger } from "react-hook-form";
+import type { ReactNode } from "react";
 import { Stepper } from "@/components/transversal/sections/FormStep";
 
 export interface CreditApplicationFormProps<T extends FieldValues = FieldValues> {
@@ -21,6 +22,8 @@ export interface CreditApplicationFormProps<T extends FieldValues = FieldValues>
   onSubmitForm: (data: FieldValues) => void | Promise<void>;
   isSubmitting?: boolean;
   submitLabel?: string;
+  /** Renderizado custom por sección (ej. repeater de accionistas). */
+  renderSection?: (section: FormStep["sections"][number], control: Control<FieldValues>) => ReactNode;
 }
 
 /**
@@ -41,6 +44,7 @@ export function CreditaApplicationForm<T extends FieldValues = FieldValues>({
   onSubmitForm,
   isSubmitting = false,
   submitLabel = "Enviar Solicitud",
+  renderSection,
 }: CreditApplicationFormProps<T>) {
   return (
     <div className="bg-white dark:bg-slate-900 shadow-xl rounded-2xl p-8 border border-slate-100 dark:border-slate-800">
@@ -55,6 +59,7 @@ export function CreditaApplicationForm<T extends FieldValues = FieldValues>({
           onBeforeNext={onBeforeNext}
           submitLabel={submitLabel}
           isSubmitting={isSubmitting}
+          renderSection={renderSection}
         />
       </form>
     </div>

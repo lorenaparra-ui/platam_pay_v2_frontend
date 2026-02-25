@@ -9,6 +9,7 @@ import type { FormFieldConfig } from "@/interfaces/section";
 import type { Option } from "@/interfaces/form";
 import { SectionInformationForm } from "./SectionsInformationForm";
 import { Button } from "@/components/transversal/buttons/Button";
+import type { ReactNode } from "react";
 
 
 /** Determina si un paso debe mostrarse según dependency/dependencyValue del paso. */
@@ -51,6 +52,8 @@ interface StepperProps<T extends FieldValues> {
     submitLabel?: string;
     isSubmitting?: boolean;
     onComplete?: (data: T) => void;
+    /** Renderizado custom por sección (ej. repeater de accionistas). Si retorna un nodo, se usa en lugar de SectionInformationForm. */
+    renderSection?: (section: FormStep["sections"][number], control: Control<FieldValues>) => ReactNode;
 }
 
 /**
@@ -69,6 +72,7 @@ export const Stepper = <T extends FieldValues>({
     orientation = 'horizontal',
     submitLabel = "Enviar Solicitud",
     isSubmitting = false,
+    renderSection,
 }: StepperProps<T>) => {
     const [internalStep, setInternalStep] = useState(1);
     useWatch({ control }); // re-render cuando cambian valores del formulario (para recalcular pasos visibles)
@@ -78,7 +82,7 @@ export const Stepper = <T extends FieldValues>({
     const setCurrentStep = isControlled ? onStepChange : setInternalStep;
 
     const visibleSteps = steps.filter((step) => isStepVisible(step, getValues));
-    const totalSteps = visibleSteps.length;
+    
 
     const currentStepIndex = visibleSteps.findIndex((s) => s.step === currentStep);
     const effectiveIndex = currentStepIndex >= 0 ? currentStepIndex : 0;
@@ -88,9 +92,16 @@ export const Stepper = <T extends FieldValues>({
     const handleNext = async () => {
         if (!currentStepData) return;
 
-        const allFields = currentStepData.sections.flatMap((section) => section.fields);
-        const visibleFields = allFields.filter((field) => isFieldVisible(field, getValues));
-        const fieldsToValidate = visibleFields.map((field) => field.name);
+        const allFields: { name: string }[] = [];
+        for (const section of currentStepData.sections) {
+            if (section.repeaterName) {
+                allFields.push({ name: section.repeaterName });
+            } else {
+                const visibleFields = section.fields.filter((field) => isFieldVisible(field, getValues));
+                allFields.push(...visibleFields.map((f) => ({ name: f.name as string })));
+            }
+        }
+        const fieldsToValidate = allFields.map((f) => f.name);
 
         const isValid =
             fieldsToValidate.length > 0
@@ -181,15 +192,21 @@ export const Stepper = <T extends FieldValues>({
 
             {/* Step Content */}
             <div className="flex-1 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                {currentStepData?.sections.map((section) => (
-                    <SectionInformationForm
-                        key={section.section}
-                        columns={section.columns || 2}
-                        control={control}
-                        section={section.section}
-                        fields={section.fields}
-                    />
-                ))}
+                {currentStepData?.sections.map((section) => {
+                    const customContent = renderSection?.(section, control);
+                    if (customContent != null) {
+                        return <React.Fragment key={section.section}>{customContent}</React.Fragment>;
+                    }
+                    return (
+                        <SectionInformationForm
+                            key={section.section}
+                            columns={section.columns || 2}
+                            control={control}
+                            section={section.section}
+                            fields={section.fields}
+                        />
+                    );
+                })}
 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between pt-6 border-t border-slate-100 dark:border-slate-800">

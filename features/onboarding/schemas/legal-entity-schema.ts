@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SHAREHOLDING_THRESHOLD } from "@/features/onboarding/constants/shareholding";
 
 /** Acepta número o string (InputNumber puede enviar ambos). Requerido = no vacío. */
 const requiredNumberOrString = (message: string) =>
@@ -178,6 +179,31 @@ export const legalEntitySchema = z
           path: ["clr_pj_eeff_files"],
         });
       }
+    }
+  })
+  .superRefine((data, ctx) => {
+    const repeater = data.clr_pj_shareholders_repeater;
+    if (!Array.isArray(repeater) || repeater.length === 0) return;
+    let total = 0;
+    for (const item of repeater) {
+      const v = item.shareholder_percent;
+      if (v === undefined || v === null || v === "") continue;
+      const n = typeof v === "string" ? Number(v) : v;
+      total += Number.isNaN(n) ? 0 : n;
+    }
+    if (total < SHAREHOLDING_THRESHOLD) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `La participación total de accionistas debe ser al menos ${SHAREHOLDING_THRESHOLD}%`,
+        path: ["clr_pj_shareholders_repeater"],
+      });
+    }
+    if (total > 100) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "La participación total no puede superar 100%",
+        path: ["clr_pj_shareholders_repeater"],
+      });
     }
   });
 

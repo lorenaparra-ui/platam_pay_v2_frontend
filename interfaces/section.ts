@@ -37,4 +37,8 @@ export interface SectionInformationField<T extends FieldValues = FieldValues> {
   fields: FormFieldConfig<T>[];
   section: string;
   name?: string;
+  /** Si está definido, la sección se renderiza como repeater (useFieldArray). */
+  repeaterName?: string;
+  /** Opciones para los selects dentro del repeater (ej. documentTypes). */
+  optionsForRepeater?: Record<string, { value: string; label: string }[]>;
 }

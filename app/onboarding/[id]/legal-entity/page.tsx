@@ -1,10 +1,13 @@
 "use client";
 
 import { CreditaApplicationForm } from "@/features/onboarding/components/credit -application/CreditApplicationForm";
+import { ShareholdersRepeater } from "@/features/onboarding/components/ShareholdersRepeater";
 import {
   defaultValuesLegalEntity,
   legalEntityFormFields,
 } from "@/features/onboarding/constants/legal-entity";
+import { SHAREHOLDERS_REPEATER_NAME } from "@/features/onboarding/constants/legal-entity/sections/shareholders-section";
+import { getTotalShareholding } from "@/features/onboarding/constants/shareholding";
 import { getBusinessInfoByNit } from "@/features/onboarding/services/business-info.service";
 import { legalEntitySchema } from "@/features/onboarding/schemas/legal-entity-schema";
 import { partnerService } from "@/features/partners/services/partners.service";
@@ -128,7 +131,9 @@ export default function LegalEntityPage({
     nextStep: number,
   ) => {
     const values = getValuesFn();
-    const nextAccumulated = { ...accumulatedData, ...values };
+    const repeater = values.clr_pj_shareholders_repeater as { shareholder_percent?: string | number }[] | undefined;
+    const shareholding = getTotalShareholding(repeater);
+    const nextAccumulated = { ...accumulatedData, ...values, shareholding };
     setAccumulatedData(nextAccumulated);
     setCurrentStep(nextStep);
     if (enableSessionStorage && partnerId && flowKey) {
@@ -211,20 +216,41 @@ export default function LegalEntityPage({
   const formFields = legalEntityFormFields
     .map((step) => ({
       ...step,
-      sections: step.sections.map((section) => ({
-        ...section,
-        fields: section.fields.map((field) => {
-          if (field.optionsName) {
-            const optionsValue = options[field.optionsName];
-            if (optionsValue) {
-              return { ...field, options: optionsValue };
+      sections: step.sections.map((section) => {
+        const base = {
+          ...section,
+          fields: section.fields.map((field) => {
+            if (field.optionsName) {
+              const optionsValue = options[field.optionsName];
+              if (optionsValue) {
+                return { ...field, options: optionsValue };
+              }
             }
-          }
-          return field;
-        }),
-      })),
+            return field;
+          }),
+        };
+        if (section.repeaterName === SHAREHOLDERS_REPEATER_NAME) {
+          return { ...base, optionsForRepeater: { documentTypes } };
+        }
+        return base;
+      }),
     }))
     .filter((step) => step.sections.length > 0);
+
+  const renderSection = (
+    section: (typeof formFields)[number]["sections"][number],
+    controlArg: ReturnType<typeof useForm>["control"]
+  ) => {
+    if (section.repeaterName === SHAREHOLDERS_REPEATER_NAME) {
+      return (
+        <ShareholdersRepeater
+          control={controlArg as Parameters<typeof ShareholdersRepeater>[0]["control"]}
+          section={section as Parameters<typeof ShareholdersRepeater>[0]["section"]}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
@@ -250,6 +276,7 @@ export default function LegalEntityPage({
         onStepChange={setCurrentStep}
         onBeforeNext={handleBeforeNext}
         onSubmitForm={onSubmitForm}
+        renderSection={renderSection}
       />
     </div>
   );
