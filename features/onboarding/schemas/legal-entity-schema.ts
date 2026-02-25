@@ -23,7 +23,7 @@ export const legalEntitySchema = z
     // Identificadores y Metadata
     pa_id: z.string().min(1, "Categoría de negocio requerida"),
     clr_cp_id: z.string().optional().or(z.literal("")),
-    clr_hunter_id: z.string().min(1, "El representante de ventas es requerido"),
+    clr_hunter_id: z.string().optional(),
     __form_id: z.string().optional(),
     __refer: z.string().optional(),
     __is_ajax: z.string().optional(),
@@ -39,8 +39,9 @@ export const legalEntitySchema = z
     clr_bus_address: z.string().min(1, "La dirección principal es requerida"),
     clr_email: z.string().email("Correo electrónico inválido"),
     clr_pj_year_of_establishment: z
-      .string()
-      .min(1, "Año de constitución requerido"),
+        .number()
+        .min(1, "Año de constitución requerido")
+        .max(new Date().getFullYear(), "Año de constitución inválido"),
 
     // Representante Legal (Input / Select)
     clr_pj_legal_rep_name: z.string().min(1, "Nombres del representante requeridos"),

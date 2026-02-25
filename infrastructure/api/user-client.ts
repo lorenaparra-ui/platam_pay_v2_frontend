@@ -106,4 +106,5 @@ export const userClient = {
   put: <T>(url: string, body: unknown, config = {}) =>
     api.put<unknown, T>(url, body, config),
   delete: <T>(url: string, config = {}) => api.delete<unknown, T>(url, config),
+ 
 };

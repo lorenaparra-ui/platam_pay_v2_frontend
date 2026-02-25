@@ -80,7 +80,7 @@ api.interceptors.response.use(
     } else if (error.request) {
       // Error de Red (no hubo respuesta)
       normalizedError = {
-        message: 'Error de red: No se recibió respuesta del servidor',
+        message: 'Error de red: No se recibió respuesta del servidor partner',
         statusCode: 0,
         details: error.request,
       }

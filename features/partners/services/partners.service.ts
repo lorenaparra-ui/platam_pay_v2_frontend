@@ -1,6 +1,7 @@
 import { partnerClient } from "@/infrastructure/api/partner-client";
 import type { Partner } from "../interfaces";
 import { parsePartner } from "../schemas";
+import { ApiError } from "@/infrastructure/api/partner-client";
 
 const MOCK_DELAY_MS = 800;
 
@@ -42,6 +43,20 @@ export const partnerService = {
 
     const response = await partnerClient.get<Partner>(`/${partnerId}`);
     return parsePartner(response);
+  },
+
+  /**
+   * Obtiene un partner por ID. Pensado para Server Components.
+   * Retorna null si no existe (404) o el ID es inválido; lanza en otros errores.
+   */
+  getPartnerById: async (partnerId: string): Promise<Partner | null> => {
+    if (!partnerId?.trim()) return null;
+    try {
+      return await partnerService.getById(partnerId);
+    } catch (err) {
+      if (err instanceof ApiError && err.statusCode === 404) return null;
+      throw err;
+    }
   },
 
   getCategories: (partnerId: number) => [{ value: "170", label: "VAEL 30" }],

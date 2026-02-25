@@ -3,7 +3,8 @@
 import React from "react";
 import { MessageCircle, Wallet, FileText } from "lucide-react";
 import { InformationCard } from "@/components/transversal/cards/InformationCard";
-import { usePartner, PartnerLink } from "@/features/partners";
+import { PartnerLink } from "@/features/partners";
+import { usePartnersStore } from "@/store";
 import { cn } from "@/utils/cn";
 
 export default function PartnerPage({
@@ -12,7 +13,7 @@ export default function PartnerPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = React.use(params);
-  const { data: partner, isLoading, error } = usePartner(id);
+  const partner = usePartnersStore((state) => state.partner);
 
   const partnerStyles = React.useMemo(() => {
     if (!partner) return {};
@@ -23,19 +24,10 @@ export default function PartnerPage({
     };
   }, [partner]);
 
-  if (isLoading) {
+  if (!partner) {
     return (
       <div className="min-h-screen bg-light-950 dark:bg-dark-950 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div
-            className={cn(
-              "w-12 h-12 border-4 border-t-transparent rounded-full animate-spin",
-            )}
-            style={{
-              borderColor: "var(--partner-primary)",
-              borderTopColor: "transparent",
-            }}
-          />
           <p className="text-light-100 dark:text-dark-300 text-lg">
             Cargando información del partner...
           </p>
@@ -44,23 +36,8 @@ export default function PartnerPage({
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-light-950 dark:bg-dark-950 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white dark:bg-dark-900 rounded-xl shadow-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-light-50 dark:text-white mb-2">
-            Error al cargar el partner
-          </h2>
-          <p className="text-light-100 dark:text-dark-300 mb-6">
-            {error.message}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const partnerName = partner?.trade_name ?? "Platam";
-  const rolePlural = partner?.sales_rep_role_name_plural ?? "Asesores";
+  const partnerName = partner.trade_name ?? "Platam";
+  const rolePlural = partner.sales_rep_role_name_plural ?? "Asesores";
 
   return (
     <div className="min-h-screen bg-light-950 dark:bg-dark-950 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 font-sans">

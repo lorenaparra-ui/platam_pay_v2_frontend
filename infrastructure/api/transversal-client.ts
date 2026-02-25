@@ -19,7 +19,7 @@ export class ApiError extends Error {
   }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_TRANSVERSAL_API_URL || "http://localhost:3001";
+const BASE_URL = process.env.NEXT_PUBLIC_TRANSVERSAL_API_URL || "http://localhost:3000";
 
 // 1. Instancia base reutilizable
 export const api: AxiosInstance = axios.create({
@@ -86,7 +86,7 @@ api.interceptors.response.use(
     } else if (error.request) {
       // Error de Red (no hubo respuesta)
       normalizedError = {
-        message: 'Error de red: No se recibió respuesta del servidor',
+        message: 'Error de red: No se recibió respuesta del servidor transversal',
         statusCode: 0,
         details: error.request,
       }

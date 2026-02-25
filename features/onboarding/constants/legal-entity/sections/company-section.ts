@@ -24,7 +24,7 @@ export const companySection: SectionInformationField = {
     {
       name: "clr_city",
       label: "Ciudad",
-      typefield: FieldType.Select,
+      typefield: FieldType.SearchSelect,
       placeholder: "Buscar",
       optionsName: "cities",
       rules: { required: "La ciudad es requerida" },
@@ -53,10 +53,11 @@ export const companySection: SectionInformationField = {
     {
       name: "clr_pj_year_of_establishment",
       label: "Año de constitución",
-      typefield: FieldType.Input,
+      typefield: FieldType.InputNumber,
       type: "number",
+      useGrouping: false,
       placeholder: "YYYY",
-      rules: { required: "El año de constitución es requerido" },
+      rules: { required: "El año de constitución es requerido",  },
     },
   ],
 };

@@ -1,4 +1,5 @@
 "use client";
+
 import { CreditaApplicationForm } from "@/features/onboarding/components/credit -application/CreditApplicationForm";
 import {
   defaultValuesNaturalPerson,
@@ -7,10 +8,19 @@ import {
 import { naturalPersonSchema } from "@/features/onboarding/schemas/natural-person-schema";
 import { partnerService } from "@/features/partners/services/partners.service";
 import { salesRepresentativeService } from "@/features/partners/services/sales-representative";
+import {
+  getOnboardingDraft,
+  saveOnboardingDraft,
+  clearOnboardingDraft,
+  mergeOnboardingDefaults,
+} from "@/store/onboarding/onboarding.persistence";
+import { useOnboardingStore } from "@/store/onboarding/onboarding.store";
 import { useConfigData } from "@/store";
-import React, { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 
-const handleSubmit = async (data: any) => {
+const handleSubmit = async (data: unknown) => {
   try {
   } catch (error) {}
 };
@@ -21,7 +31,6 @@ export default function NaturalPersonPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = React.use(params);
-  
   const {
     documentTypes,
     businessTypes,
@@ -29,9 +38,101 @@ export default function NaturalPersonPage({
     cities,
     phoneCodes,
   } = useConfigData();
+  const {
+    currentStep,
+    accumulatedData,
+    setCurrentStep,
+    setAccumulatedData,
+    reset: resetStore,
+    setProgressStatus,
+  } = useOnboardingStore();
 
   const [salesRepresentatives, setSalesRepresentatives] = useState<any[]>([]);
   const [partnerCategories, setPartnerCategories] = useState<any[]>([]);
+
+  const flowKey = "natural-person";
+  const partnerId = id;
+  const enableSessionStorage = true;
+
+  const initialDraft = useMemo(() => {
+    if (typeof window === "undefined" || !enableSessionStorage || !partnerId || !flowKey)
+      return null;
+    const draft = getOnboardingDraft(partnerId, flowKey);
+    if (draft) {
+      useOnboardingStore.getState().hydrateFromDraft(draft);
+    }
+    return draft;
+  }, [partnerId, flowKey, enableSessionStorage]);
+
+  const mergedDefaults = useMemo(
+    () =>
+      mergeOnboardingDefaults(
+        defaultValuesNaturalPerson as Record<string, unknown>,
+        initialDraft?.accumulatedData ?? accumulatedData
+      ),
+    [initialDraft?.accumulatedData, accumulatedData]
+  );
+
+  const {
+    control,
+    handleSubmit: rhfHandleSubmit,
+    reset,
+    trigger,
+    getValues,
+  } = useForm({
+    resolver: zodResolver(naturalPersonSchema) as never,
+    defaultValues: mergedDefaults,
+  });
+
+  useLayoutEffect(() => {
+    if (!partnerId || !flowKey) return;
+    if (!enableSessionStorage || !initialDraft) {
+      resetStore();
+      return;
+    }
+    reset(
+      mergeOnboardingDefaults(
+        defaultValuesNaturalPerson as Record<string, unknown>,
+        initialDraft.accumulatedData
+      ) as Parameters<typeof reset>[0]
+    );
+  }, [partnerId, flowKey]);
+
+  useEffect(() => {
+    setProgressStatus("in_progress");
+    return () => setProgressStatus("draft");
+  }, [setProgressStatus]);
+
+  const handleBeforeNext = async (
+    getValuesFn: () => Record<string, unknown>,
+    nextStep: number
+  ) => {
+    const values = getValuesFn();
+    const nextAccumulated = { ...accumulatedData, ...values };
+    setAccumulatedData(nextAccumulated);
+    setCurrentStep(nextStep);
+    if (enableSessionStorage && partnerId && flowKey) {
+      saveOnboardingDraft(partnerId, flowKey, {
+        currentStep: nextStep,
+        accumulatedData: nextAccumulated,
+      });
+    }
+  };
+
+  const onSubmitForm = async (data: unknown) => {
+    try {
+      setProgressStatus("completed");
+      await handleSubmit(data);
+      reset();
+      resetStore();
+      if (enableSessionStorage && partnerId && flowKey) {
+        clearOnboardingDraft(partnerId, flowKey);
+      }
+    } catch (error) {
+      setProgressStatus("draft");
+    }
+  };
+
   useEffect(() => {
     if (id) {
       const reps = salesRepresentativeService.getAllByPartner(Number(id));
@@ -60,10 +161,7 @@ export default function NaturalPersonPage({
           if (field.optionsName) {
             const optionsValue = options[field.optionsName];
             if (optionsValue) {
-              return {
-                ...field,
-                options: optionsValue,
-              };
+              return { ...field, options: optionsValue };
             }
           }
           return field;
@@ -86,9 +184,15 @@ export default function NaturalPersonPage({
       </div>
       <CreditaApplicationForm
         formFields={formFields}
-        schema={naturalPersonSchema}
-        onSubmit={handleSubmit}
-        defaultValues={defaultValuesNaturalPerson}
+        control={control}
+        trigger={trigger}
+        getValues={getValues}
+        reset={reset}
+        handleSubmit={rhfHandleSubmit}
+        currentStep={currentStep}
+        onStepChange={setCurrentStep}
+        onBeforeNext={handleBeforeNext}
+        onSubmitForm={onSubmitForm}
       />
     </div>
   );

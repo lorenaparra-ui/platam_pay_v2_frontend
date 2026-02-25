@@ -32,6 +32,7 @@ export function parseCitiesToOptions(data: unknown): Option[] {
     return [];
   }
   return parsed.data.map((item) => ({
+    stateName: item.stateName,
     value: item.externalId,
     label: item.cityName,
   }));

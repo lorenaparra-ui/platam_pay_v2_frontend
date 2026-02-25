@@ -7,18 +7,12 @@ export const legalRepresentativeSection: SectionInformationField = {
   fields: [
     {
       name: "clr_pj_legal_rep_name",
-      label: "Nombres del representante legal",
+      label: "Nombre completo del representante legal",
       typefield: FieldType.Input,
       type: "text",
       rules: { required: "Nombres requeridos" },
     },
-    {
-      name: "clr_pj_legal_rep_last_name",
-      label: "Apellidos del representante legal",
-      typefield: FieldType.Input,
-      type: "text",
-      rules: { required: "Apellidos requeridos" },
-    },
+
     {
       name: "clr_pj_legal_rep_doc_type",
       label: "Tipo de documento del representante legal",
@@ -36,10 +30,14 @@ export const legalRepresentativeSection: SectionInformationField = {
     {
       name: "clr_phone",
       label: "Número de celular del representante legal",
-      typefield: FieldType.Input,
-      type: "text",
-      placeholder: "Sin indicativo de país",
-      rules: { required: "Celular requerido" },
+      type: "number",
+      typefield: FieldType.InputWithSelect,
+      optionsName: "phoneCodes",
+      labelKey: "label",
+      valueKey: "value",
+      imageKey: "flag",
+      defaultSelectValue: "57",
+      rules: { required: "Número de celular  requerido" },
     },
     {
       name: "direccion_del_representante_legal",

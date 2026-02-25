@@ -9,7 +9,7 @@ import type { FormFieldConfig } from "@/interfaces/section";
 import type { Option } from "@/interfaces/form";
 import { SectionInformationForm } from "./SectionsInformationForm";
 import { Button } from "@/components/transversal/buttons/Button";
-import { evaluateCondition, convertLegacyToCondition } from "@/utils/evaluateCondition";
+
 
 /** Determina si un paso debe mostrarse según dependency/dependencyValue del paso. */
 function isStepVisible(
@@ -41,23 +41,41 @@ interface StepperProps<T extends FieldValues> {
     control: Control<FieldValues>;
     trigger: UseFormTrigger<T>;
     getValues: UseFormGetValues<FieldValues>;
+    /** Paso actual (modo controlado). Si se pasa, el Stepper usa este valor en lugar del estado interno. */
+    currentStep?: number;
+    /** Actualiza el paso (modo controlado). Permite sincronizar con cualquier store (Zustand, Context, etc.) o estado del padre. */
+    onStepChange?: (step: number) => void;
+    /** Llamado antes de avanzar al siguiente paso. Permite persistir datos en store, sessionStorage, etc. */
+    onBeforeNext?: (getValues: UseFormGetValues<FieldValues>, nextStep: number) => void | Promise<void>;
     orientation?: 'horizontal' | 'vertical';
     submitLabel?: string;
     isSubmitting?: boolean;
     onComplete?: (data: T) => void;
 }
 
+/**
+ * Stepper de formulario multipaso. No depende de ningún store: puede usarse
+ * en modo no controlado (estado interno) o controlado pasando currentStep + onStepChange
+ * para sincronizar con cualquier store (Zustand, Context, Redux, etc.) o estado del padre.
+ */
 export const Stepper = <T extends FieldValues>({
     steps,
     control,
     trigger,
     getValues,
+    currentStep: controlledStep,
+    onStepChange,
+    onBeforeNext,
     orientation = 'horizontal',
     submitLabel = "Enviar Solicitud",
     isSubmitting = false,
 }: StepperProps<T>) => {
-    const [currentStep, setCurrentStep] = useState(1);
+    const [internalStep, setInternalStep] = useState(1);
     useWatch({ control }); // re-render cuando cambian valores del formulario (para recalcular pasos visibles)
+
+    const isControlled = controlledStep !== undefined && onStepChange !== undefined;
+    const currentStep = isControlled ? controlledStep : internalStep;
+    const setCurrentStep = isControlled ? onStepChange : setInternalStep;
 
     const visibleSteps = steps.filter((step) => isStepVisible(step, getValues));
     const totalSteps = visibleSteps.length;
@@ -80,7 +98,14 @@ export const Stepper = <T extends FieldValues>({
                 : true;
         if (isValid) {
             const nextStep = visibleSteps[effectiveIndex + 1];
-            if (nextStep) setCurrentStep(nextStep.step);
+            if (nextStep) {
+                if (onBeforeNext) {
+                    await onBeforeNext(getValues, nextStep.step);
+                    // El padre actualiza el paso vía onStepChange dentro de onBeforeNext
+                } else {
+                    setCurrentStep(nextStep.step);
+                }
+            }
         }
     };
 

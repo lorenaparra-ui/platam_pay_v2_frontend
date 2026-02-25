@@ -31,7 +31,6 @@ export const defaultValuesLegalEntity = {
   clr_email: "",
   clr_pj_year_of_establishment: "",
   clr_pj_legal_rep_name: "",
-  clr_pj_legal_rep_last_name: "",
   clr_pj_legal_rep_doc_type: "",
   clr_pj_legal_rep_doc_number: "",
   clr_phone: "",

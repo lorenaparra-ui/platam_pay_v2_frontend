@@ -139,7 +139,7 @@ export const clientDataSection: SectionInformationField = {
       valueKey: "value",
       imageKey: "flag",
       defaultSelectValue: "57",
-      rules: { required: "Código de país requerido" },
+      rules: { required: "Número de celular  requerido" },
     },
   ],
 };
