@@ -4,6 +4,7 @@ import { FormStep } from "@/interfaces/form";
 import type { Control, FieldValues, UseFormGetValues, UseFormHandleSubmit, UseFormReset, UseFormTrigger } from "react-hook-form";
 import type { ReactNode } from "react";
 import { Stepper } from "@/components/transversal/sections/FormStep";
+import { usePartnersStore } from "@/store/partners/partners.store";
 
 export interface CreditApplicationFormProps<T extends FieldValues = FieldValues> {
   formFields: FormStep[];
@@ -36,7 +37,6 @@ export function CreditaApplicationForm<T extends FieldValues = FieldValues>({
   control,
   trigger,
   getValues,
-  reset,
   handleSubmit,
   currentStep,
   onStepChange,
@@ -46,6 +46,7 @@ export function CreditaApplicationForm<T extends FieldValues = FieldValues>({
   submitLabel = "Enviar Solicitud",
   renderSection,
 }: CreditApplicationFormProps<T>) {
+  const partner = usePartnersStore((s) => s.partner);
   return (
     <div className="bg-white dark:bg-slate-900 shadow-xl rounded-2xl p-8 border border-slate-100 dark:border-slate-800">
       <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-8">
@@ -60,6 +61,7 @@ export function CreditaApplicationForm<T extends FieldValues = FieldValues>({
           submitLabel={submitLabel}
           isSubmitting={isSubmitting}
           renderSection={renderSection}
+          primaryColor={partner?.primary_color}
         />
       </form>
     </div>

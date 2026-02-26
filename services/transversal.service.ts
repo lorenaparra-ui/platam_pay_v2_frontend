@@ -39,7 +39,7 @@ export const transversalService = {
     return parseCitiesToOptions(data);
   },
   getAllDocumentTypes: () => [{ value: "CC", label: "Cédula de Ciudadanía" },
-  { value: "CE", label: "Cédula de Extranjería" },
+  { value: "CE", label: "Cédula de Extranjería" },{ value: "NIT", label: "NIT" },
   ],
   
   getAllBusinessSeniority: () => [{ value: "Menos de 1 año", label: "Menos de 1 año" },

@@ -5,7 +5,7 @@ export const SHAREHOLDERS_REPEATER_NAME = "clr_pj_shareholders_repeater";
 
 export const shareholdersSection: SectionInformationField = {
   section: "Datos de los accionistas",
-  columns: 2,
+  className: 'grid-cols-1 md:grid-cols-2',
   repeaterName: SHAREHOLDERS_REPEATER_NAME,
   fields: [
     {
@@ -28,6 +28,11 @@ export const shareholdersSection: SectionInformationField = {
       typefield: FieldType.Input,
       type: "text",
       rules: { required: "Nombres requeridos" },
+      condition: {
+        field: "clr_pj_shareholders_repeater.0.shareholder_doc_type",
+        operator: "!==",
+        value: "NIT",
+      },
     },
     {
       name: "clr_pj_shareholders_repeater.0.shareholder_last_name",
@@ -35,6 +40,11 @@ export const shareholdersSection: SectionInformationField = {
       typefield: FieldType.Input,
       type: "text",
       rules: { required: "Apellidos requeridos" },
+      condition: {
+        field: "clr_pj_shareholders_repeater.0.shareholder_doc_type",
+        operator: "!==",
+        value: "NIT",
+      },
     },
     {
       name: "clr_pj_shareholders_repeater.0.shareholder_percent",

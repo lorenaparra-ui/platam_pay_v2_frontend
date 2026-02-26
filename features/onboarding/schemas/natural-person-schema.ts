@@ -47,7 +47,10 @@ export const naturalPersonSchema = z
 
   // Solicitud
   clr_requested_loc: z.number().min(1, "Monto solicitado requerido"),
-})
- 
+});
 
+/** Tipo de datos del formulario (validación). */
 export type NaturalPersonSchema = z.infer<typeof naturalPersonSchema>;
+
+/** Re-export del tipo DTO para el backend. */
+export type { NaturalPersonDTO } from "@/features/onboarding/schemas/dto";

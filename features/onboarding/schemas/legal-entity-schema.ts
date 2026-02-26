@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { SHAREHOLDING_THRESHOLD } from "@/features/onboarding/constants/shareholding";
+import { formToLegalEntityDTO } from "@/features/onboarding/schemas/dto";
+import type { LegalEntityDTO } from "@/features/onboarding/schemas/dto";
 
 /** Acepta número o string (InputNumber puede enviar ambos). Requerido = no vacío. */
 const requiredNumberOrString = (message: string) =>
@@ -207,4 +209,13 @@ export const legalEntitySchema = z
     }
   });
 
+/** Tipo de salida para el backend (snake_case). Re-exportado desde DTO. */
+export type { LegalEntityDTO } from "@/features/onboarding/schemas/dto";
+
+/** Schema con transformación a DTO para el backend. Usar en submit. */
+export const legalEntitySchemaToDTO = legalEntitySchema.transform((data) =>
+  formToLegalEntityDTO(data as Record<string, unknown>)
+);
+
+/** Tipo de datos del formulario (validación). */
 export type LegalEntitySchema = z.infer<typeof legalEntitySchema>;

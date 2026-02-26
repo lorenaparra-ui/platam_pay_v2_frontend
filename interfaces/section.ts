@@ -27,7 +27,7 @@ export type FormFieldConfig<T extends FieldValues = FieldValues> = Omit<FormFiel
 };
 
 export interface SectionInformationField<T extends FieldValues = FieldValues> {
-  columns?: number;
+  className?: string;
   /** @deprecated Use `condition` instead */
   dependency?: Path<T>;
   /** @deprecated Use `condition` instead */

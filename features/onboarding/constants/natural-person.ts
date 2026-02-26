@@ -56,7 +56,7 @@ const patnerCategory = {
 
 export const salesRepresentativeSection: SectionInformationField = {
   section: "Representante de Ventas",
-  columns: 1,
+  className: 'grid-cols-1',
   name: "salesRepresentative",
   fields: [
     {
@@ -338,7 +338,7 @@ export const financialInfoSection: SectionInformationField = {
 
 export const authorizationSection: SectionInformationField = {
   section: "Autorización",
-  columns: 1,
+  className: 'grid-cols-1',
   fields: [
     {
       name: "authorization",

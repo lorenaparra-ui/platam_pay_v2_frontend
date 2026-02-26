@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Control, FieldValues, UseFormGetValues, UseFormTrigger, useWatch } from "react-hook-form";
 import { Check } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { getPrimaryColorConfig } from "@/utils/primaryColor";
 import { FormStep } from "@/interfaces/form";
 import type { FormFieldConfig } from "@/interfaces/section";
 import type { Option } from "@/interfaces/form";
@@ -54,6 +55,12 @@ interface StepperProps<T extends FieldValues> {
     onComplete?: (data: T) => void;
     /** Renderizado custom por sección (ej. repeater de accionistas). Si retorna un nodo, se usa en lugar de SectionInformationForm. */
     renderSection?: (section: FormStep["sections"][number], control: Control<FieldValues>) => ReactNode;
+    /**
+     * Color primario dinámico para el step activo, botones y conector.
+     * Acepta: clase Tailwind (text-primary-600, bg-blue-500, border-*), variable CSS (var(--primary-color)) o hex/rgb.
+     * Se aplica a: fondo del step activo, fondo del botón Siguiente, conector completado, borde y texto del botón Atrás, texto del título del step activo.
+     */
+    primaryColor?: string;
 }
 
 /**
@@ -73,8 +80,13 @@ export const Stepper = <T extends FieldValues>({
     submitLabel = "Enviar Solicitud",
     isSubmitting = false,
     renderSection,
+    primaryColor,
 }: StepperProps<T>) => {
     const [internalStep, setInternalStep] = useState(1);
+    const colorConfig = useMemo(
+        () => (primaryColor ? getPrimaryColorConfig(primaryColor) : null),
+        [primaryColor]
+    );
     useWatch({ control }); // re-render cuando cambian valores del formulario (para recalcular pasos visibles)
 
     const isControlled = controlledStep !== undefined && onStepChange !== undefined;
@@ -157,30 +169,63 @@ export const Stepper = <T extends FieldValues>({
                                     "flex items-center gap-3 relative z-10",
                                     orientation === 'vertical' ? "w-full p-2 rounded-lg transition-colors" : ""
                                 )}>
-                                    <div className={cn(
-                                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300",
-                                        isActive ? "border-primary bg-primary-500 light:text-primary-foreground shadow-primary scale-110" :
-                                            isCompleted ? "border-primary-500 bg-primary-500 " :
-                                                "border-slate-200 text-slate-400 dark:border-slate-700 dark:text-slate-500"
-                                    )}>
+                                    <div
+                                        className={cn(
+                                            "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300",
+                                            !colorConfig && (isActive ? "border-primary bg-primary-500 light:text-primary-foreground shadow-primary scale-110" :
+                                                isCompleted ? "border-primary-500 bg-primary-500 " :
+                                                    "border-slate-200 text-slate-400 dark:border-slate-700 dark:text-slate-500"),
+                                            colorConfig && (isActive || isCompleted) && colorConfig.type === "tailwind" && cn(
+                                                colorConfig.bgClass,
+                                                colorConfig.borderClass,
+                                                "text-white dark:text-white",
+                                                isActive && "scale-110 shadow-md"
+                                            ),
+                                            colorConfig && !(isActive || isCompleted) && "border-slate-200 text-slate-400 dark:border-slate-700 dark:text-slate-500"
+                                        )}
+                                        style={
+                                            colorConfig?.type === "css" && (isActive || isCompleted)
+                                                ? { backgroundColor: colorConfig.value, borderColor: colorConfig.value, color: "#fff" }
+                                                : undefined
+                                        }
+                                    >
                                         {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
                                     </div>
-                                    <span className={cn(
-                                        "font-medium text-sm transition-colors duration-300",
-                                        isActive ? "text-primary-600 dark:text-primary-400" :
-                                            isCompleted ? "text-slate-600 dark:text-slate-300" :
-                                                "text-slate-400 dark:text-slate-600"
-                                    )}>
+                                    <span
+                                        className={cn(
+                                            "md:block hidden font-medium text-sm transition-colors duration-300",
+                                            !colorConfig && (isActive ? "text-primary-600 dark:text-primary-400" :
+                                                isCompleted ? "text-slate-600 dark:text-slate-300" :
+                                                    "text-slate-400 dark:text-slate-600"),
+                                            colorConfig && isActive && colorConfig.type === "tailwind" && colorConfig.textClass,
+                                            colorConfig && !isActive && (isCompleted ? "text-slate-600 dark:text-slate-300" : "text-slate-400 dark:text-slate-600")
+                                        )}
+                                        style={
+                                            colorConfig?.type === "css" && isActive
+                                                ? { color: colorConfig.value }
+                                                : undefined
+                                        }
+                                    >
                                         {getStepTitle(step)}
                                     </span>
                                 </div>
 
                                 {/* Connector Line (Horizontal) */}
                                 {orientation === 'horizontal' && index !== visibleSteps.length - 1 && (
-                                    <div className="flex-1 h-[2px] mx-4 bg-slate-100 dark:bg-primary-500 relative">
-                                        <div 
-                                            className="absolute top-0 left-0 h-full  transition-all duration-500 ease-out"
-                                            style={{ width: isCompleted ? '100%' : '0%' }}
+                                    <div className={cn(
+                                        "flex-1 h-[2px] mx-4 relative",
+                                        !colorConfig ? "bg-slate-100 dark:bg-primary-500" : "bg-slate-100 dark:bg-slate-700"
+                                    )}>
+                                        <div
+                                            className={cn(
+                                                "absolute top-0 left-0 h-full transition-all duration-500 ease-out",
+                                                !colorConfig && isCompleted && "bg-primary-500",
+                                                colorConfig?.type === "tailwind" && isCompleted && colorConfig.bgClass
+                                            )}
+                                            style={{
+                                                width: isCompleted ? '100%' : '0%',
+                                                ...(colorConfig?.type === "css" && isCompleted ? { backgroundColor: colorConfig.value } : {}),
+                                            }}
                                         />
                                     </div>
                                 )}
@@ -200,7 +245,7 @@ export const Stepper = <T extends FieldValues>({
                     return (
                         <SectionInformationForm
                             key={section.section}
-                            columns={section.columns || 2}
+                            className={section.className}
                             control={control}
                             section={section.section}
                             fields={section.fields}
@@ -217,6 +262,12 @@ export const Stepper = <T extends FieldValues>({
                                 variant="secondary"
                                 onClick={handlePrev}
                                 disabled={isSubmitting}
+                                className={colorConfig?.type === "tailwind" ? colorConfig.borderClass + " " + colorConfig.textClass : undefined}
+                                style={
+                                    colorConfig?.type === "css"
+                                        ? { borderColor: colorConfig.value, color: colorConfig.value }
+                                        : undefined
+                                }
                             >
                                 Atrás
                             </Button>
@@ -229,7 +280,15 @@ export const Stepper = <T extends FieldValues>({
                                 type="submit"
                                 variant="default"
                                 disabled={isSubmitting}
-                                className={cn(isSubmitting && "opacity-80 cursor-wait")}
+                                className={cn(
+                                    isSubmitting && "opacity-80 cursor-wait",
+                                    colorConfig?.type === "tailwind" && colorConfig.bgClass
+                                )}
+                                style={
+                                    colorConfig?.type === "css"
+                                        ? { backgroundColor: colorConfig.value, color: "#fff" }
+                                        : undefined
+                                }
                             >
                                 {isSubmitting ? "Enviando..." : submitLabel}
                             </Button>
@@ -238,6 +297,12 @@ export const Stepper = <T extends FieldValues>({
                                 type="button"
                                 variant="default"
                                 onClick={handleNext}
+                                className={colorConfig?.type === "tailwind" ? colorConfig.bgClass + " " + colorConfig.borderClass : undefined}
+                                style={
+                                    colorConfig?.type === "css"
+                                        ? { backgroundColor: colorConfig.value, color: "#fff" ,  borderColor: colorConfig.value}
+                                        : undefined
+                                }
                             >
                                 Siguiente
                             </Button>

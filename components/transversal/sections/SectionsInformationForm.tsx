@@ -75,6 +75,7 @@ const renderField = <T extends FieldValues>(
           options={field.options}
           labelKey="label"
           valueKey="value"
+          imageKey={field.imageKey as keyof typeof field.options[number]}
           type={type}
           placeholder={field.placeholder}
           defaultSelectValue={field.defaultSelectValue}
@@ -195,18 +196,14 @@ const ConditionalFieldWrapperMemo = memo(ConditionalFieldWrapper) as typeof Cond
 
 export const SectionInformationForm = memo(<T extends FieldValues>({
   control,
-  columns = 2,
+  className = 'grid-cols-1 md:grid-cols-2',
   fields,
   section,
   condition,
-  dependency,
-  dependencyValue,
 }: SectionInformationFormProps<T>): ReactElement | null => {
   const isSectionVisible = useFieldVisibility(
     control,
     condition,
-    dependency,
-    dependencyValue
   );
 
   if (!isSectionVisible) {
@@ -218,7 +215,7 @@ export const SectionInformationForm = memo(<T extends FieldValues>({
       <h2 className="text-xl font-semibold text-light-50 dark:text-light-800 border-b border-light-800 dark:border-dark-800 pb-2">
         {section}
       </h2>
-      <div className={`grid grid-cols-${columns} gap-6`}>
+      <div className={`grid ${className} gap-6`}>
         {fields.map((field) => (
           <div key={field.name}>
             <ConditionalFieldWrapperMemo<T> field={field} control={control} />
